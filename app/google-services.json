@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "243189152702",
+    "project_id": "new-cashoo-mainfb",
+    "storage_bucket": "new-cashoo-mainfb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243189152702:android:963089529cfeb8bd9fd7ef",
+        "android_client_info": {
+          "package_name": "com.iie.st10320489.marene"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB29hz24KVkau29rGlUxM4C7vgys4mZPOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

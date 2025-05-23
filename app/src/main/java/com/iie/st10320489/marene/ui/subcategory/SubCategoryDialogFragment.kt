@@ -1,0 +1,64 @@
+package com.iie.st10320489.marene.ui.subcategory
+
+import android.app.Dialog
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.iie.st10320489.marene.R
+import com.iie.st10320489.marene.data.entities.SubCategory
+
+class SubCategoryDialogFragment : DialogFragment() {
+
+    private lateinit var sharedPreferences: SharedPreferences
+    private val firestore = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = requireActivity().layoutInflater
+        val view = inflater.inflate(R.layout.dialog_add_subcategory, null)
+        val editTextSubcategoryName = view.findViewById<EditText>(R.id.editTextSubcategoryName)
+
+        sharedPreferences = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+
+        builder.setView(view)
+            .setTitle("Add Subcategory")
+            .setPositiveButton("Add") { _, _ ->
+                val subcategoryName = editTextSubcategoryName.text.toString().trim()
+                if (subcategoryName.isNotEmpty()) {
+                    addSubCategoryToFirestore(subcategoryName)
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        return builder.create()
+    }
+
+    private fun addSubCategoryToFirestore(subcategoryName: String) {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val subCategoryRef = firestore.collection("subcategories").document()
+            val subCategory = SubCategory(
+                subCategoryId = subCategoryRef.id,
+                name = subcategoryName,
+                userId = currentUser.uid
+            )
+
+            subCategoryRef.set(subCategory)
+                .addOnSuccessListener {
+                    (parentFragment as? SubcategoryFragment)?.loadSubcategories()
+                }
+                .addOnFailureListener { e ->
+                    // Handle the error
+                }
+        }
+    }
+}
