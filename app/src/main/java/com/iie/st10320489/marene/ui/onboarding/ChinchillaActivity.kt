@@ -2,119 +2,75 @@ package com.iie.st10320489.marene.ui.onboarding
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.FirebaseFirestore
 import com.iie.st10320489.marene.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
-class ChinchillaActivity : AppCompatActivity() {
+class ChinchillaActivity : AppCompatActivity(){    // (Android Knowledge, 2024)
 
     private lateinit var chinchillaImage: ImageView
     private var selectedColor: String = ""
-    private val firestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chinchilla)
+        setContentView(R.layout.activity_chinchilla)  // Set the layout for the activity
 
+        // Handle back button click - finishes the current activity
         findViewById<ImageButton>(R.id.backButton).setOnClickListener {
             finish()
-        }
+        }    // (Android Knowledge, 2024)
 
-        chinchillaImage = findViewById(R.id.chinchillaImage)
+        chinchillaImage = findViewById(R.id.chinchillaImage)  // Reference to the chinchilla image view
 
+        // Set image and color when white button is clicked
         findViewById<View>(R.id.whiteButton).setOnClickListener {
             selectedColor = "white"
             chinchillaImage.setImageResource(R.drawable.white_nohat)
         }
+
+        // Set image and color when beige button is clicked
         findViewById<View>(R.id.beigeButton).setOnClickListener {
             selectedColor = "beige"
             chinchillaImage.setImageResource(R.drawable.beige_nohat)
         }
+
+        // Set image and color when violet button is clicked
         findViewById<View>(R.id.violetButton).setOnClickListener {
-            selectedColor = "violet"
+            selectedColor = "voilet"
             chinchillaImage.setImageResource(R.drawable.voilet_nohat)
         }
+
+        // Set image and color when brown button is clicked
         findViewById<View>(R.id.brownButton).setOnClickListener {
             selectedColor = "brown"
             chinchillaImage.setImageResource(R.drawable.brown_nohat)
         }
+
+        // Set image and color when black button is clicked
         findViewById<View>(R.id.blackButton).setOnClickListener {
             selectedColor = "black"
             chinchillaImage.setImageResource(R.drawable.black_nohat)
         }
+
+        // Set image and color when grey button is clicked
         findViewById<View>(R.id.greyButton).setOnClickListener {
             selectedColor = "grey"
             chinchillaImage.setImageResource(R.drawable.grey_nohat)
         }
 
+        // Handle next button click - start the next activity and pass the selected color
         findViewById<Button>(R.id.nextButton).setOnClickListener {
-            if (selectedColor.isNotEmpty()) {
-                saveSelectedColorToFirestore()
-            } else {
-                Toast.makeText(this, "Please select a color", Toast.LENGTH_SHORT).show()
-            }
+            val intent = Intent(this, ChinchillaHatActivity::class.java)
+            intent.putExtra("selectedColor", selectedColor)  // Pass color to next activity
+            startActivity(intent)
+            finish()
         }
     }
-
-    private fun getCurrentUserEmail(): String {
-        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-        return sharedPreferences.getString("currentUserEmail", "") ?: ""
-    }
-
-    private fun saveSelectedColorToFirestore() {
-        val email = getCurrentUserEmail()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val userSnapshot = firestore.collection("users")
-                    .whereEqualTo("email", email)
-                    .get()
-                    .await()
-
-                if (!userSnapshot.isEmpty) {
-                    val userDocId = userSnapshot.documents[0].id
-
-                    val colorData = hashMapOf("chinchillaColor" to selectedColor)
-
-                    firestore.collection("users")
-                        .document(userDocId)
-                        .collection("preferences")
-                        .document("chinchilla")
-                        .set(colorData)
-                        .await()
-
-                    withContext(Dispatchers.Main) {
-                        val intent = Intent(this@ChinchillaActivity, ChinchillaHatActivity::class.java)
-                        intent.putExtra("selectedColor", selectedColor)
-                        startActivity(intent)
-                        finish()
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@ChinchillaActivity, "User not found", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("FirestoreError", "Failed to save chinchilla color: ${e.message}")
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@ChinchillaActivity, "Error saving color", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
+    // (Android Knowledge, 2024)
 }
-
 
 //Reference List:
 //Android Developers. 2025. Add an Image composition. [online]. Available at: https://developer.android.com/codelabs/basic-android-kotlin-compose-add-images#2 [Accessed on 9 April 2025]
