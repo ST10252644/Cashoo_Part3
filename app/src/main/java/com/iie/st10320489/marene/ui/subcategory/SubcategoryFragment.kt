@@ -38,6 +38,7 @@ class SubcategoryFragment : Fragment() {
             val bundle = Bundle().apply {
                 putString("categoryName", selectedSubcategory.name)
                 putString("subCategoryName", selectedSubcategory.name)
+                putString("subCategoryId", selectedSubcategory.subCategoryId) // from parent
             }
             findNavController().navigate(R.id.action_subcategoryFragment_to_filterFragment, bundle)
         }

@@ -1,10 +1,10 @@
 package com.iie.st10320489.marene.ui.rewards
 
 data class RewardItem(
-
-    val title: String,
-    val points: String,
-    val imageResId: Int
+    val name: String = "",
+    val amount: Int = 0,
+    val imageUrl: String = "",
+    val type: String = ""
 ) // (Code With Cal, 2025)
 
 //Reference List:

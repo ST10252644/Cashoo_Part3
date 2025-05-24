@@ -39,8 +39,10 @@ class CategoryFragment : Fragment() {
 
             val bundle = Bundle().apply {
                 putString("userId", userId)
-                putString("categoryName", category.name)
+                putString("categoryId", category.categoryId) // ✅ This is needed
+                putString("categoryName", category.name)     // Optional
             }
+
 
             if (category.name == "Other") {
                 findNavController().navigate(R.id.action_categoryFragment_to_subcategoryFragment, bundle)
