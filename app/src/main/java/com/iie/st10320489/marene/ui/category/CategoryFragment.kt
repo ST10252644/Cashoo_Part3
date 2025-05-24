@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.iie.st10320489.marene.R
 import com.iie.st10320489.marene.databinding.FragmentCategoryBinding
 import com.iie.st10320489.marene.graphs.MonthlySummaryFragment
@@ -22,7 +24,7 @@ class CategoryFragment : Fragment() {
 
     private lateinit var viewModel: CategoryViewModel
     private lateinit var adapter: CategoryAdapter
-    private var userId: Int = 0 // Could be changed to String if you prefer Firebase userId
+    private var userId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,11 +38,11 @@ class CategoryFragment : Fragment() {
         adapter = CategoryAdapter(emptyList()) { category ->
 
             val bundle = Bundle().apply {
-                putInt("userId", userId)
-                putString("categoryName", category.categoryName)
+                putString("userId", userId)
+                putString("categoryName", category.name)
             }
 
-            if (category.categoryName == "Other") {
+            if (category.name == "Other") {
                 findNavController().navigate(R.id.action_categoryFragment_to_subcategoryFragment, bundle)
             } else {
                 findNavController().navigate(R.id.action_categoryFragment_to_filterFragment, bundle)
@@ -54,25 +56,20 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPref = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-        val currentUserEmail = sharedPref.getString("currentUserEmail", null)
-
-        if (currentUserEmail != null) {
-            // Here you might fetch userId from Firebase Authentication or Firestore users collection
-            // For now, let's pretend we have a userId stored in SharedPreferences for demo:
-            userId = sharedPref.getInt("currentUserId", 0) // Or fetch from Firebase
-
-            if (userId != 0) {
-                viewModel.getCategoriesByUser(userId)
-            }
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            userId = currentUser.uid
+            viewModel.getCategoriesByUser(userId)
 
             viewModel.categories.observe(viewLifecycleOwner) { categories ->
                 adapter.updateCategories(categories ?: emptyList())
             }
-
             addMonthlySummaryFragment()
+        } else {
+            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun addMonthlySummaryFragment() {
         val fragmentManager = childFragmentManager

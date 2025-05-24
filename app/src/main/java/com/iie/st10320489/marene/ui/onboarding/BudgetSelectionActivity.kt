@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iie.st10320489.marene.R
@@ -16,6 +17,7 @@ import com.iie.st10320489.marene.databinding.ActivityBudgetSelectionBinding
 class BudgetSelectionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBudgetSelectionBinding
+    private lateinit var onboardingViewModel: OnboardingViewModel
     private val selectedCategories = mutableListOf<String>()
     private val categories = listOf(
         "House", "Food", "Transport", "Health", "Loans",
@@ -33,6 +35,7 @@ class BudgetSelectionActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
+        onboardingViewModel = ViewModelProvider(this, OnboardingViewModelFactory())[OnboardingViewModel::class.java]
         setupCategoryViews()
         setupButtons()
     }
@@ -88,8 +91,8 @@ class BudgetSelectionActivity : AppCompatActivity() {
             return
         }
 
-        val userEmail = currentUser.email ?: ""
-        val userDocRef = firestore.collection("users").document(userEmail)
+        val userId = currentUser.uid
+        val userDocRef = firestore.collection("users").document(userId)
 
         val data = mapOf(
             "selectedCategories" to selectedCategories
@@ -98,6 +101,10 @@ class BudgetSelectionActivity : AppCompatActivity() {
         userDocRef.set(data)
             .addOnSuccessListener {
                 Log.d("BudgetSelectionActivity", "Categories saved successfully")
+
+                // ✅ NOW CALL THE VIEWMODEL TO SAVE TO CATEGORIES COLLECTION
+                onboardingViewModel.saveSelectedCategories(userId, selectedCategories)
+
                 val intent = Intent(this@BudgetSelectionActivity, SavingsGoalActivity::class.java)
                 startActivity(intent)
             }
@@ -106,4 +113,5 @@ class BudgetSelectionActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to save categories", Toast.LENGTH_SHORT).show()
             }
     }
+
 }

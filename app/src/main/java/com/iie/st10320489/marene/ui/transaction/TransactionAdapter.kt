@@ -1,5 +1,7 @@
 package com.iie.st10320489.marene.ui.transaction
 
+import android.content.res.Resources
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -19,28 +21,40 @@ class TransactionAdapter(
 
         // Binds data from a TransactionWithCategory object to the UI components
         fun bind(item: TransactionWithCategory) {
+            Log.d("TransactionAdapter", "Binding transaction: ${item.transaction.name} with category: ${item.category.name} (${item.category.colour})")
             val transaction = item.transaction
             val category = item.category
+            val context = binding.root.context
 
-            // Set the transaction name, method, and date in the respective TextViews
             binding.txtTransactionName.text = transaction.name
             binding.txtTransactionMethod.text = transaction.transactionMethod
             binding.txtTransactionDate.text = transaction.dateTime
 
-            // Set amount text and color depending on whether it's income or expense
             setTransactionAmount(transaction)
 
-            // Set the category icon and background tint color
-            binding.imgCategoryIcon.setImageResource(category.icon)
-            binding.imgCategoryIconBackground.background.setTint(
-                ContextCompat.getColor(binding.root.context, category.colour)
-            )
+            // Set icon with fallback
+            if (category.icon != 0) {
+                binding.imgCategoryIcon.setImageResource(category.icon)
+            } else {
+                binding.imgCategoryIcon.setImageResource(R.drawable.ic_default) // fallback icon
+            }
 
-            // Set click listener for the entire transaction item view
+            // Set background tint color with fallback and try-catch
+            val colorResId = category.colour
+            val color = try {
+                if (colorResId != 0) ContextCompat.getColor(context, colorResId)
+                else ContextCompat.getColor(context, R.color.black) // fallback color
+            } catch (e: Resources.NotFoundException) {
+                Log.e("TransactionAdapter", "Invalid color resource id: $colorResId", e)
+                ContextCompat.getColor(context, R.color.black)
+            }
+            binding.imgCategoryIconBackground.background.setTint(color)
+
             binding.root.setOnClickListener {
                 onItemClick(item)
             }
         }
+
 
         // Sets the transaction amount text and color based on whether it's income or expense
         private fun setTransactionAmount(transaction: com.iie.st10320489.marene.data.entities.Transaction) {

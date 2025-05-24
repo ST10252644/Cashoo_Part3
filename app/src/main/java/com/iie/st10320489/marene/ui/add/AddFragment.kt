@@ -6,11 +6,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,9 +20,17 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.iie.st10320489.marene.data.entities.Transaction
 import com.iie.st10320489.marene.databinding.FragmentAddBinding
 import java.util.Calendar
 import java.util.UUID
+
+data class CategoryItem(
+    val displayName: String,
+    val categoryId: String,
+    val subCategoryId: String? = null
+)
+
 
 class AddFragment : Fragment() {
 
@@ -49,21 +59,113 @@ class AddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val spinner = binding.categorySpinner
-        val categoryList = listOf("Food", "Transport", "Bills", "Other") // You can dynamically load from Firestore
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+        val currentUser = auth.currentUser ?: run {
+            Log.e("CategoryFragment", "No authenticated user found")
+            return
+        }
+        val uid = currentUser.uid
+
+        Log.d("CategoryFragment", "Fetching categories for user: $uid")
+
+        val categoryItems = mutableListOf<CategoryItem>()
+
+        firestore.collection("users").document(uid).collection("categories")
+            .get()
+            .addOnSuccessListener { categoryDocs ->
+                Log.d("CategoryFragment", "Fetched ${categoryDocs.size()} categories")
+
+                val categoryDocsList = categoryDocs.toList().toMutableList()
+                val existingIds = categoryDocsList.map { it.id }
+
+                // Check for "Other" category stored with name as ID
+                firestore.collection("users").document(uid).collection("categories")
+                    .whereEqualTo("name", "Other")
+                    .get()
+                    .addOnSuccessListener { otherDocs ->
+                        val realOtherDoc = otherDocs.firstOrNull()
+                        if (realOtherDoc != null && !existingIds.contains(realOtherDoc.id)) {
+                            categoryDocsList.add(realOtherDoc)
+                        }
+
+                        var loadedTasks = 0
+                        val totalTasks = categoryDocsList.size
+
+                        if (totalTasks == 0) {
+                            setupSpinner(spinner, categoryItems)
+                            return@addOnSuccessListener
+                        }
+
+                        categoryDocsList.forEach { categoryDoc ->
+                            val categoryId = categoryDoc.id
+                            val categoryName = categoryDoc.getString("name") ?: categoryId
+
+                            categoryItems.add(CategoryItem(displayName = categoryName, categoryId = categoryId))
+
+                            // 💥 Fetch subcategories using category *name* as path (since your subcategories are stored under "Other", not the ID)
+                            firestore.collection("users").document(uid)
+                                .collection("categories").document(categoryName) // using name instead of id
+                                .collection("subcategories")
+                                .get()
+                                .addOnSuccessListener { subDocs ->
+                                    subDocs.forEach { subDoc ->
+                                        val subName = subDoc.getString("name") ?: return@forEach
+                                        val subId = subDoc.getString("subCategoryId") ?: subDoc.id
+
+                                        categoryItems.add(
+                                            CategoryItem(
+                                                displayName = "• $subName",
+                                                categoryId = categoryId,
+                                                subCategoryId = subId
+                                            )
+                                        )
+                                    }
+
+                                    loadedTasks++
+                                    if (loadedTasks == totalTasks) {
+                                        setupSpinner(spinner, categoryItems)
+                                    }
+                                }
+                                .addOnFailureListener {
+                                    loadedTasks++
+                                    if (loadedTasks == totalTasks) {
+                                        setupSpinner(spinner, categoryItems)
+                                    }
+                                }
+                        }
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("CategoryFragment", "Failed to fetch categories", e)
+            }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedCategory = categoryList[position]
+                val selected = categoryItems.getOrNull(position)
+                if (selected != null) {
+                    selectedCategory = selected.categoryId
+                    selectedSubCategory = selected.subCategoryId ?: ""
+                    Log.d("CategoryFragment", "Selected category: ${selected.categoryId}, subcategory: ${selected.subCategoryId ?: "none"}")
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 selectedCategory = ""
+                selectedSubCategory = ""
             }
         }
 
+        setupUIListeners()
+    }
+
+    private fun setupSpinner(spinner: Spinner, items: List<CategoryItem>) {
+        Log.d("CategoryFragment", "Setting up spinner with ${items.size} items")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items.map { it.displayName })
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+    }
+
+
+    private fun setupUIListeners() {
         binding.btnChooseFile.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
@@ -89,6 +191,7 @@ class AddFragment : Fragment() {
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
         }
     }
+
 
     private fun updateDateTimeField() {
         if (selectedDate.isNotEmpty() && selectedTime.isNotEmpty()) {
@@ -142,25 +245,31 @@ class AddFragment : Fragment() {
         date: String,
         description: String,
         photoUrl: String,
-        category: String,
+        selectedCategoryId: String,
         isExpense: Boolean
     ) {
-        val transaction = hashMapOf(
-            "userId" to userId,
-            "name" to name,
-            "amount" to amount,
-            "method" to method,
-            "location" to location,
-            "date" to date,
-            "description" to description,
-            "photoUrl" to photoUrl,
-            "category" to category,
-            "expense" to isExpense,
-            "timestamp" to System.currentTimeMillis()
+        val transactionId = UUID.randomUUID().toString()
+
+        val transaction = Transaction(
+            transactionId = transactionId,
+            userId = userId,
+            name = name,
+            amount = amount,
+            transactionMethod = method,
+            location = location,
+            dateTime = date,
+            description = description,
+            photo = photoUrl,
+            categoryId = selectedCategoryId,
+            subCategoryId = if (selectedSubCategory.isNotEmpty()) selectedSubCategory else null,
+            expense = isExpense
         )
 
-        firestore.collection("transactions")
-            .add(transaction)
+        firestore.collection("users")
+            .document(userId)
+            .collection("transactions")
+            .document(transactionId)
+            .set(transaction)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Transaction saved", Toast.LENGTH_SHORT).show()
                 resetFields()
@@ -169,6 +278,7 @@ class AddFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed to save transaction", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
