@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home"
+    app:labelVisibilityMode="labeled"
+    >
+  <!-- //(Cal, 2023), (College, 2025),-->
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.iie.st10320489.marene.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.iie.st10320489.marene.ui.profile.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingFragment_to_edit_profile_Fragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.iie.st10320489.marene.ui.profile.EditProfileFragment"
+        android:label="@string/title_editProfile"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
+        android:id="@+id/navigation_analysis"
+        android:name="com.iie.st10320489.marene.ui.analysis.AnalysisFragment"
+        android:label="@string/title_analysis"
+        tools:layout="@layout/fragment_analysis" />
+
+
+  <!-- //(Cal, 2023), (College, 2025),-->
+    <fragment
+        android:id="@+id/navigation_add"
+        android:name="com.iie.st10320489.marene.ui.add.AddFragment"
+        android:label="@string/title_add"
+        tools:layout="@layout/fragment_add" />
+
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.iie.st10320489.marene.ui.category.CategoryFragment"
+        android:label="@string/title_category"
+        tools:layout="@layout/fragment_category">
+
+        <action
+            android:id="@+id/action_categoryFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+
+        <action
+            android:id="@+id/action_categoryFragment_to_subcategoryFragment"
+            app:destination="@id/subcategoryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.iie.st10320489.marene.ui.filter.FilterFragment"
+        android:label="FilterFragment" >
+        <action
+            android:id="@+id/action_transactionFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_rewards"
+        android:name="com.iie.st10320489.marene.ui.rewards.RewardsFragment"
+        android:label="@string/title_rewards"
+        tools:layout="@layout/fragment_rewards" />
+
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.iie.st10320489.marene.ui.transaction.TransactionFragment"
+        android:label="TransactionFragment">
+        <action
+            android:id="@+id/action_transactionFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment" />
+    </fragment>
+  <!-- //(Cal, 2023), (College, 2025),-->
+    <fragment
+        android:id="@+id/transactionDetailsFragment"
+        android:name="com.iie.st10320489.marene.ui.transaction.TransactionDetailsFragment"
+        android:label="Transaction Details" />
+
+    <fragment
+        android:id="@+id/monthlySummaryFragment"
+        android:name="com.iie.st10320489.marene.graphs.MonthlySummaryFragment"
+        android:label="Monthly Summary"
+        tools:layout="@layout/fragment_monthly_summary" />
+
+    <fragment
+        android:id="@+id/subcategoryFragment"
+        android:name="com.iie.st10320489.marene.ui.subcategory.SubcategoryFragment"
+        android:label="Subcategories" >
+
+        <action
+            android:id="@+id/action_subcategoryFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
+
+    <!--Rewards Nav-->
+    <!--<fragment
+        android:id="@+id/navigation_rewards_two"
+        android:name="com.iie.st10320489.marene.ui.rewards.FragmentRewardsTwo"
+        tools:layout="@layout/fragment_rewardstwo" />-->
+
+    <fragment
+        android:id="@+id/navigation_rewards_discount"
+        android:name="com.iie.st10320489.marene.ui.rewards.DiscountActivity"
+        tools:layout="@layout/activity_discount" />
+
+
+    <fragment
+        android:id="@+id/navigation_rewards_help"
+        android:name="com.iie.st10320489.marene.ui.profile.HelpActivity"
+        tools:layout="@layout/activity_help" />
+
+
+    <fragment
+        android:id="@+id/navigation_rewards_claimdetail"
+        android:name="com.iie.st10320489.marene.ui.rewards.ClaimDetailActivity"
+        tools:layout="@layout/activity_claim_detail">
+        <argument
+            android:name="IMAGE_RES_ID"
+            app:argType="integer" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_rewards_discountdetail"
+        android:name="com.iie.st10320489.marene.ui.rewards.DiscountDetailActivity"
+        tools:layout="@layout/activity_discount_detail">
+        <argument
+            android:name="discount_image"
+            app:argType="integer" />
+    </fragment>
+
+    <!--<fragment
+        android:id="@+id/navigation_rewards_claimed"
+        android:name="com.iie.st10320489.marene.ui.rewards.FragmentClaimedRewards"
+        tools:layout="@layout/fragment_claimed_rewards" />-->
+
+
+    <fragment
+        android:id="@+id/navigation_rewards_qr"
+        android:name="com.iie.st10320489.marene.ui.rewards.QrFragment"
+        tools:layout="@layout/activity_qr" />
+
+    <fragment
+        android:id="@+id/qrFragment"
+        android:name="com.iie.st10320489.marene.ui.rewards.QrFragment"
+        android:label="QR Code">
+        <!-- Add actions if needed -->
+    </fragment>
+
+
+</navigation>
+
+    <!-- //(Cal, 2023), (College, 2025),-->
+
+    <!--//Bibliography
+           //AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
+           //AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
+           //Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
+           //[Accessed 26 April 2025].
+           //Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
+           //Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
+           //[Accessed 27 April 2025].
+           //Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
+           //Available at: hRps://developer.android.com/develop#core-areas
+           //[Accessed 28 April 2025].
+           //Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
+           //[Accessed 27 April 2025].
+           //College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+           //Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
+           //Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
+           //[Accessed 28 April 2025].
+
+           //androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
+           //AndroidDevelopers, 2023. Layouts in Views. [Online]
+           //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+           //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+           //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+           //[Accessed 15 April 2025].
+           //Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+           //Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+           //[Accessed 22 April 2025].
+           //Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+           //[Accessed 24 April 2025].
+           //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+           //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+           //[Accessed 23 April 2025]. -->
+
+  
+

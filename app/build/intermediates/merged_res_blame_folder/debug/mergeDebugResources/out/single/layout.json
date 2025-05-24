@@ -1,0 +1,174 @@
+[
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_transaction_details.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_transaction_details.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_help.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_help.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_edit_profile.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_edit_profile.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/navigation_rewards_qr.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/navigation_rewards_qr.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_monthly_summary.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_monthly_summary.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_transaction.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_transaction.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_claim_detail.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_claim_detail.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_qr.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_qr.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_signup.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_signup.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/item_category.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/item_category.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_chinchilla_hat.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_chinchilla_hat.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_main.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_claimed_rewards.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_claimed_rewards.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_savings_goal.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_savings_goal.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_settings.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/item_reward.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/item_reward.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_subcategory.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_subcategory.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_chinchilla.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_chinchilla.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_budget_selection.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_budget_selection.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/item_transaction.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/item_transaction.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/item_reward_claim.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/item_reward_claim.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/item_discount.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/item_discount.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_discount_detail.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_discount_detail.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/view_item_transaction.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/view_item_transaction.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_login.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/item_subcategory.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/item_subcategory.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_onboarding.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_onboarding.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_discount.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_discount.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_category.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_category.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_onboarding2.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_onboarding2.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_home_transactions.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_home_transactions.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/privacy_and_security.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/privacy_and_security.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_add.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_add.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_filter.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_filter.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_onboarding.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_onboarding.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_savings_goal_with_error.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_savings_goal_with_error.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_rewards.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_rewards.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_rewardstwo.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_rewardstwo.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_home.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/dialog_add_subcategory.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/dialog_add_subcategory.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_analysis.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_analysis.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/activity_onboarding2.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/activity_onboarding2.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-60:/layout/fragment_home_search.xml",
+        "source": "com.iie.st10320489.marene.app-main-63:/layout/fragment_home_search.xml"
+    }
+]

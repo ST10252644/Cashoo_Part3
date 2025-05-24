@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.apprewards.FragmentRewardsTwo">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="16dp"
+      tools:ignore="MissingConstraints">
+
+    <!-- Rewards Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#76af99"
+        android:gravity="center_horizontal"
+        android:padding="24dp"
+        android:layout_marginBottom="17dp">
+
+        <TextView
+          android:id="@+id/txtYouHave2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="You have"
+          android:textSize="15sp"
+          android:layout_marginTop="8dp"
+          android:textColor="#0d493a" />
+
+      <TextView
+          android:id="@+id/txtPoints2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="C 35"
+          android:textSize="24sp"
+          android:textStyle="bold"
+          android:textColor="#0d493a" />
+    </LinearLayout>
+
+
+      <!-- Rewards Section -->
+    <TextView
+        android:id="@+id/txtRew2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Rewards"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <!-- Bronze Tier -->
+
+      <TextView
+        android:id="@+id/tierBron2"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bronze"
+        android:text="Bronze Tier"
+        android:padding="13dp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerClaimBronze"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="false"
+    android:layout_marginBottom="16dp"
+    android:orientation="horizontal" />
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="#E5E7EB"
+          android:layout_marginVertical="12dp" />
+
+
+    <!-- Silver Tier -->
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Silver Tier"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:padding="13dp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/silver"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white" />
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/recyclerClaimSilver"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:nestedScrollingEnabled="false"
+       android:orientation="horizontal"
+       android:layout_marginBottom="16dp" />
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="#E5E7EB"
+          android:layout_marginVertical="12dp" />
+
+    <!-- Gold Tier -->
+
+      <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Gold Tier"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:padding="13dp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/gold"
+        android:textColor="@color/white" />
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/recyclerClaimGold"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:nestedScrollingEnabled="false"
+       android:orientation="horizontal"
+       android:layout_marginBottom="16dp"/>
+
+      <TextView
+          android:id="@+id/discPage"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="40dp"
+          android:background="@drawable/box"
+          android:padding="8dp"
+          android:text="Go to Discount Page"
+          android:textColor="@color/white"
+          android:textSize="20dp"
+          android:textStyle="bold">
+
+      </TextView>
+
+      <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:layout_marginBottom="16dp">
+
+  </LinearLayout>
+
+  </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
+    <!-- (Angga Risky, 2017) -->
+
+    <!-- Reference List:
+    Angga Risky. 2017. Rewards UI Design to Android XML Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=fjXMx_iLkTY [Accessed on 10 April 2025]
+    GeeksforGeeks. 2025. Android UI Layouts. [online]. Available at: https://www.geeksforgeeks.org/android-ui-layouts/ [Accessed on 10 April 2025] -->

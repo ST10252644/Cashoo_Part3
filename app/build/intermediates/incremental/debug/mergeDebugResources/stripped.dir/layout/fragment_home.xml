@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:id="@+id/homeScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ✅ Green Welcome Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/secondary"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/greetingTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_extrabold"
+                            android:text="Hi, Charné"
+                            android:textColor="@color/text_heading"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Welcome back!"
+                            android:textColor="@color/text"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <!--PROFILE PHOTO-->
+                    <ImageView
+                        android:id="@+id/profileImageView"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/ic_profile_background"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/grey_sailor" />
+                </LinearLayout>
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:defaultNavHost="true"
+                    app:navGraph="@navigation/mobile_navigation"
+                    tools:fragment=".graphs.MonthlySummaryFragment" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Goals and Target"
+                    android:textColor="@color/text_heading"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="24dp"/>
+
+
+                <!-- see more link -->
+                <TextView
+                    android:id="@+id/seeMoreGoals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="See More"
+                    android:textColor="@color/tertiary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="24dp"/>
+            </LinearLayout>
+
+
+            <!-- Green Goals Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/rounded_background"
+                android:elevation="4dp"
+                android:orientation="horizontal"
+                android:paddingTop="25dp"
+                android:paddingBottom="25dp"
+                android:paddingRight="25dp">
+
+                <ImageView
+                    android:id="@+id/greenCardImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/chancilla_demo" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#2E7D60" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Row: Icon + Min Saving Goal -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_saving_goal"
+                            android:contentDescription="Saving Goal Icon"
+                            android:layout_marginEnd="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Min Saving Goal"
+                            android:textColor="@color/text_heading"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/inter_regular" />
+                    </LinearLayout>
+
+                    <!-- Value for Min Saving Goal -->
+                    <TextView
+                        android:id="@+id/minGoalTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="R 1,000"
+                        android:textColor="@color/text_heading"
+                        android:fontFamily="@font/inter_extrabold"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="3dp"
+                        android:background="#2E7D60" />
+
+                    <!-- Row: Icon + Max Spending Goal -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_spending_goal"
+                            android:contentDescription="Saving Goal Icon"
+                            android:layout_marginEnd="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Max Spending Goal"
+                            android:textColor="@color/text_heading"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/inter_regular"/>
+                    </LinearLayout>
+
+                    <!-- Value for Max Spending Goal -->
+                    <TextView
+                        android:id="@+id/maxGoalTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="R 7,000"
+                        android:textColor="@color/text_heading"
+                        android:fontFamily="@font/inter_extrabold"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--Transaction Header -->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                android:paddingBottom="22dp"
+                android:paddingTop="10dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Transactions"
+                    android:textColor="@color/text_heading"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+                <!-- see more link -->
+                <TextView
+                    android:id="@+id/seeMoreTransactions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingBottom="22dp"
+                    android:paddingTop="10dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="See More"
+                    android:textColor="@color/tertiary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <!-- ✅ Transaction Item-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerRecentTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:nestedScrollingEnabled="false"
+                />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- (Angga Risky, 2017) -->
+
+    <!-- Reference List:
+    Angga Risky. 2017. Rewards UI Design to Android XML Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=fjXMx_iLkTY [Accessed on 10 April 2025]
+    GeeksforGeeks. 2025. Android UI Layouts. [online]. Available at: https://www.geeksforgeeks.org/android-ui-layouts/ [Accessed on 10 April 2025] -->

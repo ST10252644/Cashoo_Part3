@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:id="@+id/helpMain"
+    android:background="@android:color/white">
+
+    <!--  (AndroidDevelopers, 2023)-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title for the Help Center screen -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Help Center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="25dp"
+            android:textColor="@android:color/black"
+            android:paddingBottom="8dp" />
+
+        <!-- Search bar to find help topics -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:src="@drawable/ic_search" />
+
+                <EditText
+                    android:id="@+id/helpSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Search Help..."
+                    android:minHeight="48dp"
+                    android:paddingStart="8dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Intro to category-based browsing -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Browse by topic"
+            android:textStyle="bold"
+            android:textSize="19sp"
+            android:textColor="@color/black"
+            android:paddingBottom="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="40dp"/>
+
+        <!-- Row 1 of categories (Account, Privacy) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="36dp"
+            android:gravity="center"
+            android:background="#49aa89"
+            android:weightSum="2"
+            android:layoutDirection="ltr">
+
+            <!-- Individual Category Blocks Below... -->
+
+        </LinearLayout>
+
+        <!-- Row 2 of categories (Security, About Cashoo) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="#49aa89"
+            android:weightSum="2">
+
+            <!-- Individual Category Blocks Below... -->
+        </LinearLayout>
+
+        <!--  (AndroidDevelopers, 2023)-->
+        <!-- Back button to return to previous screen -->
+        <Button
+            android:id="@+id/helpBack"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="60dp"
+            android:text="Back"
+            android:gravity="center"
+            android:layout_marginLeft="130dp"
+            android:backgroundTint="#29644d"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+    <!-- //(Cal, 2023), (College, 2025),-->
+
+
+    <!--//Bibliography
+       //AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
+       //AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
+       //Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
+       //[Accessed 26 April 2025].
+       //Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
+       //[Accessed 27 April 2025].
+       //Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://developer.android.com/develop#core-areas
+       //[Accessed 28 April 2025].
+       //Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
+       //[Accessed 27 April 2025].
+       //College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+       //Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
+       //Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
+       //[Accessed 28 April 2025].
+
+       //androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
+       //AndroidDevelopers, 2023. Layouts in Views. [Online]
+       //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+       //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+       //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+       //[Accessed 15 April 2025].
+       //Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+       //Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+       //[Accessed 22 April 2025].
+       //Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+       //[Accessed 24 April 2025].
+       //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+       //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+       //[Accessed 23 April 2025]. -->

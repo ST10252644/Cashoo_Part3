@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+    <!--  (AndroidDevelopers, 2023)-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Back Button -->
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_previous"
+            android:contentDescription="Back" />
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="50" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Your Savings Goals"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Updated Subtitle -->
+        <TextView
+            android:id="@+id/subtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decide how much you want to save! Set a minimum goal to start small and a max goal to push yourself toward bigger savings—and earn Cashoos along the way!"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Dropdown Label -->
+        <TextView
+            android:layout_width="295dp"
+            android:layout_height="wrap_content"
+            android:text="How often do you get paid?"
+            android:textStyle="bold" />
+
+        <!-- Styled Dropdown -->
+        <Spinner
+            android:id="@+id/paydaySpinner"
+            android:layout_width="295dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/spinner_background"
+            android:padding="8dp" />
+
+        <!-- Slider 1 Title -->
+        <TextView
+            android:layout_width="327dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="What's your salary?"
+            android:textStyle="bold" />
+
+        <!-- Slider 1 -->
+        <SeekBar
+            android:id="@+id/salarySlider"
+            android:layout_width="327dp"
+            android:layout_height="8dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/slider_progress"
+            android:thumb="@android:drawable/ic_media_play" />
+
+        <TextView
+            android:id="@+id/salaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="R0"
+            android:textSize="12sp"
+            android:layout_gravity="end" />
+
+        <!-- Slider 2 Title -->
+        <TextView
+            android:layout_width="327dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Set a minimum savings goal"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/minSavingsSlider"
+            android:layout_width="327dp"
+            android:layout_height="8dp"
+            android:progress="20"
+            android:progressDrawable="@drawable/slider_progress"
+            android:thumb="@android:drawable/ic_media_play" />
+
+        <TextView
+            android:id="@+id/minSavingsValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="R0"
+            android:textSize="12sp"
+            android:layout_gravity="end" />
+
+        <!-- Slider 3 Title -->
+        <TextView
+            android:layout_width="327dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Set a maximum spending goal"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/maxSpendingSlider"
+            android:layout_width="327dp"
+            android:layout_height="8dp"
+            android:progress="30"
+            android:progressDrawable="@drawable/slider_progress"
+            android:thumb="@android:drawable/ic_media_play" />
+
+        <TextView
+            android:id="@+id/maxSpendingValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="R0"
+            android:textSize="12sp"
+            android:layout_gravity="end" />
+
+        <!-- Error Toast Style Message -->
+        <LinearLayout
+            android:layout_width="327dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:background="@drawable/toast_background"
+            android:padding="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:clipToPadding="false"
+            android:elevation="2dp"
+            tools:ignore="ExtraText">
+
+            <!-- Left Icon -->
+            <ImageView
+                android:id="@+id/leftIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_warning"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="12dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recommend 10% of Salary"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Based on your monthly goal you’re not saving the recommend amount. This may influence receiving monthly rewards."
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!--  (AndroidDevelopers, 2023)-->
+        <!-- Next Button -->
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="327dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#48B381"
+            android:text="Next"
+            android:textColor="@android:color/white"
+            android:textColorLink="#48B381"
+            app:rippleColor="#48B381"/>
+    </LinearLayout>
+</ScrollView>
+    <!-- //(Cal, 2023), (College, 2025),-->
+
+    <!--//Bibliography
+       //AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
+       //AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
+       //Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
+       //[Accessed 26 April 2025].
+       //Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
+       //[Accessed 27 April 2025].
+       //Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://developer.android.com/develop#core-areas
+       //[Accessed 28 April 2025].
+       //Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
+       //[Accessed 27 April 2025].
+       //College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+       //Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
+       //Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
+       //[Accessed 28 April 2025].
+
+       //androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
+       //AndroidDevelopers, 2023. Layouts in Views. [Online]
+       //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+       //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+       //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+       //[Accessed 15 April 2025].
+       //Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+       //Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+       //[Accessed 22 April 2025].
+       //Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+       //[Accessed 24 April 2025].
+       //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+       //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+       //[Accessed 23 April 2025]. -->
+
