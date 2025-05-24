@@ -1,12 +1,16 @@
 package com.iie.st10320489.marene.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.iie.st10320489.marene.R
 
 class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
@@ -17,9 +21,34 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
     } // (Code With Cal, 2025)
 
+    private fun loadUserChinchillaAvatar() {
+        val auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
+        val userId = auth.currentUser?.uid
+
+        userId?.let { uid ->
+            db.collection("userSettings").document(uid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val chinchilla = document.getString("chinchilla") ?: "default_chinchilla"
+                        val chinchillaResId = resources.getIdentifier(
+                            chinchilla, "drawable", requireContext().packageName
+                        )
+                        val profileImageView: ImageView = requireView().findViewById(R.id.profileImage)
+                        profileImageView.setImageResource(chinchillaResId)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("EditProfileFragment", "Failed to load chinchilla avatar: ", exception)
+                }
+        }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        loadUserChinchillaAvatar()
 
         // Finds the Button view with the ID 'updateButton' from the inflated layout.
         val updateButton: Button = view.findViewById(R.id.updateButton)

@@ -3,14 +3,18 @@ package com.iie.st10320489.marene.ui.profile
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.iie.st10320489.marene.LoginActivity
 import com.iie.st10320489.marene.R
 import com.iie.st10320489.marene.ui.profile.EditProfileFragment
@@ -37,6 +41,7 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
         val privacyRow: RelativeLayout = view.findViewById(R.id.btnPrivacy)
         val helpRow: RelativeLayout = view.findViewById(R.id.btnHelp)
 
+        loadUserChinchillaAvatar()
 
         logoutButton.setOnClickListener {
             showLogoutDialog() // Show confirmation dialog before logging out
@@ -72,6 +77,30 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
             .setNegativeButton("Cancel", null) // Dismiss dialog if user cancels
             .show()
     }
+
+    private fun loadUserChinchillaAvatar() {
+        val auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
+        val userId = auth.currentUser?.uid
+
+        userId?.let { uid ->
+            db.collection("userSettings").document(uid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val chinchilla = document.getString("chinchilla") ?: "default_chinchilla"
+                        val chinchillaResId = resources.getIdentifier(
+                            chinchilla, "drawable", requireContext().packageName
+                        )
+                        val profileImageView: ImageView = requireView().findViewById(R.id.profileImage)
+                        profileImageView.setImageResource(chinchillaResId)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("SettingsFragment", "Failed to load chinchilla avatar: ", exception)
+                }
+        }
+    }
+
 
     // Clears the user's session and navigates back to the login screen
     private fun performLogout() {
