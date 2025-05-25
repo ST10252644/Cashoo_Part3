@@ -1,4 +1,3 @@
-// HomeFragment.kt
 package com.iie.st10320489.marene.ui.home
 
 import android.os.Bundle
@@ -22,14 +21,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var adapter: TransactionAdapter
     private val homeViewModel: HomeViewModel by activityViewModels()
     private var userId: String? = null
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -39,6 +35,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Load user name first
+        homeViewModel.loadUserName()
         userId = homeViewModel.userId
 
         if (userId != null) {
@@ -56,17 +54,36 @@ class HomeFragment : Fragment() {
 
     private fun observeViewModel() {
         homeViewModel.minGoal.observe(viewLifecycleOwner) { min ->
-            binding.minGoalTextView.text = "R ${"%,.0f".format(min)}"
+            binding.minGoalTextView.text = "R ${"%.0f".format(min)}"
         }
 
+        homeViewModel.userName.observe(viewLifecycleOwner) { name ->
+            Log.d("HomeFragment", "Observed userName change: $name")
+            val sentenceCaseName = name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+            binding.greetingTextView.text = "Hi, $sentenceCaseName"
+        }
+
+
         homeViewModel.maxGoal.observe(viewLifecycleOwner) { max ->
-            binding.maxGoalTextView.text = "R ${"%,.0f".format(max)}"
+            binding.maxGoalTextView.text = "R ${"%.0f".format(max)}"
         }
 
         homeViewModel.chinchilla.observe(viewLifecycleOwner) { chinchilla ->
+            Log.d("HomeFragment", "Observed chinchilla change: $chinchilla")
             val resId = resources.getIdentifier(chinchilla, "drawable", requireContext().packageName)
-            binding.profileImageView.setImageResource(resId)
-            binding.greenCardImageView.setImageResource(resId)
+
+            if (resId != 0) {
+                // Set the avatar image in the top right corner (profile image)
+                binding.profileImageView.setImageResource(resId)
+                // Also set it in the green card if it exists
+                binding.greenCardImageView?.setImageResource(resId)
+                Log.d("HomeFragment", "Set chinchilla image: $chinchilla (resId: $resId)")
+            } else {
+                Log.w("HomeFragment", "Could not find drawable resource for: $chinchilla")
+                // Set a default image if the specified chinchilla doesn't exist
+                binding.profileImageView.setImageResource(R.drawable.black_nohat)
+                binding.greenCardImageView?.setImageResource(R.drawable.black_nohat)
+            }
         }
 
         homeViewModel.transactions.observe(viewLifecycleOwner) { transactions ->
@@ -78,32 +95,31 @@ class HomeFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
             binding.loadingOverlay.visibility = if (loading) View.VISIBLE else View.GONE
         }
-
-
     }
-
 
     private fun setupButton() {
         binding.seeMoreTransactions.setOnClickListener {
-            val bundle = Bundle().apply { putString("userId", userId) }
+            val bundle = Bundle().apply {
+                putString("userId", userId)
+            }
             findNavController().navigate(R.id.action_homeFragment_to_transactionFragment, bundle)
         }
     }
 
     private fun profileButton() {
         binding.profileImageView.setOnClickListener {
-            val bundle = Bundle().apply { putString("userId", userId) }
+            val bundle = Bundle().apply {
+                putString("userId", userId)
+            }
             findNavController().navigate(R.id.action_homeFragment_to_settingsFragment, bundle)
         }
     }
-
 
     private fun setupRecyclerView() {
         adapter = TransactionAdapter(emptyList()) {}
         binding.recyclerRecentTransactions.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerRecentTransactions.adapter = adapter
     }
-
 
     private fun addMonthlySummaryFragment() {
         val fragment = childFragmentManager.findFragmentById(R.id.fragment_container)

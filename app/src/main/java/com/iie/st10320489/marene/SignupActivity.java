@@ -16,11 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.iie.st10320489.marene.ui.onboarding.OnboardingActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     // Method to check if a password is strong: at least 8 characters, includes uppercase, digit, and special character
     private boolean isPasswordStrong(String password) {
@@ -36,6 +41,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         Button signupButton = findViewById(R.id.signupLoginButton);
         EditText nameEditText = findViewById(R.id.nameEditText);
@@ -98,8 +104,10 @@ public class SignupActivity extends AppCompatActivity {
                                 // User created successfully
                                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                 if (firebaseUser != null) {
-                                    // Optionally update user profile with display name (name + surname)
-                                    String displayName = name + " " + surname;
+                                    String userId = firebaseUser.getUid();
+
+                                    // Save user data to Firestore
+                                    saveUserDataToFirestore(userId, name, surname, email);
 
                                     // Save email and UID in SharedPreferences
                                     SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
@@ -126,5 +134,49 @@ public class SignupActivity extends AppCompatActivity {
 
         TextView signInText = findViewById(R.id.signUpText);
         signInText.setOnClickListener(v -> startActivity(new Intent(SignupActivity.this, LoginActivity.class)));
+    }
+
+    private void saveUserDataToFirestore(String userId, String name, String surname, String email) {
+        // Create user data map
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("name", name);
+        userData.put("surname", surname);
+        userData.put("email", email);
+        userData.put("cashoos", 0.0); // Default cashoos value
+        userData.put("isActive", true);
+
+        // Save to users collection
+        db.collection("users").document(userId)
+                .set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    // User data saved successfully
+                    createDefaultUserSettings(userId);
+                })
+                .addOnFailureListener(e -> {
+                    // Handle error
+                    Toast.makeText(SignupActivity.this, "Error saving user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void createDefaultUserSettings(String userId) {
+        // Create default user settings
+        Map<String, Object> userSettings = new HashMap<>();
+        userSettings.put("payday", "");
+        userSettings.put("salary", 0.0);
+        userSettings.put("minGoal", 0.0);
+        userSettings.put("maxGoal", 0.0);
+        userSettings.put("color", "");
+        userSettings.put("chinchilla", "default_chinchilla"); // Default chinchilla avatar
+
+        // Save to userSettings collection
+        db.collection("userSettings").document(userId)
+                .set(userSettings)
+                .addOnSuccessListener(aVoid -> {
+                    // User settings created successfully
+                })
+                .addOnFailureListener(e -> {
+                    // Handle error (optional - user can still use the app without settings)
+                    // Could log this error or show a message
+                });
     }
 }

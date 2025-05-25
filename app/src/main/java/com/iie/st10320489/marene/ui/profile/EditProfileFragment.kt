@@ -5,9 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,15 +13,57 @@ import com.iie.st10320489.marene.R
 
 class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
 
-    // This method is called to create the view hierarchy of the fragment.
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var nameEditText: EditText
+    private lateinit var emailEditText: EditText
+    private lateinit var paydaySpinner: Spinner
+    private lateinit var maxSpendingSlider: SeekBar
+    private lateinit var maxSpendingValue: TextView
+    private lateinit var updateButton: Button
 
+    private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
-    } // (Code With Cal, 2025)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Initialize UI elements
+        nameEditText = view.findViewById(R.id.nameEditText)
+        emailEditText = view.findViewById(R.id.signupEmailEditText)
+        paydaySpinner = view.findViewById(R.id.paydaySpinner)
+        maxSpendingSlider = view.findViewById(R.id.maxSpendingSlider)
+        maxSpendingValue = view.findViewById(R.id.maxSpendingValue)
+        updateButton = view.findViewById(R.id.updateButton)
+
+        setupSpinner()
+        loadUserChinchillaAvatar()
+        loadUserData()
+
+        maxSpendingSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                maxSpendingValue.text = "R$progress"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        updateButton.setOnClickListener {
+            updateUserProfile()
+        }
+    }
+
+    private fun setupSpinner() {
+        val options = arrayOf("Weekly", "Bi-weekly", "Monthly")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        paydaySpinner.adapter = adapter
+    }
 
     private fun loadUserChinchillaAvatar() {
-        val auth = FirebaseAuth.getInstance()
-        val db = FirebaseFirestore.getInstance()
         val userId = auth.currentUser?.uid
 
         userId?.let { uid ->
@@ -44,25 +84,55 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
         }
     }
 
+    private fun loadUserData() {
+        val userId = auth.currentUser?.uid ?: return
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        // Load basic user data
+        db.collection("users").document(userId).get().addOnSuccessListener { doc ->
+            nameEditText.setText(doc.getString("name") ?: "")
+            emailEditText.setText(doc.getString("email") ?: "")
+        }
 
-        loadUserChinchillaAvatar()
+        // Load user settings
+        db.collection("user_settings").document(userId).get().addOnSuccessListener { doc ->
+            val payday = doc.getString("payday") ?: "Monthly"
+            val maxGoal = doc.getDouble("maxGoal") ?: 0.0
+            maxSpendingSlider.progress = maxGoal.toInt()
+            maxSpendingValue.text = "R${maxGoal.toInt()}"
 
-        // Finds the Button view with the ID 'updateButton' from the inflated layout.
-        val updateButton: Button = view.findViewById(R.id.updateButton)
+            val index = (paydaySpinner.adapter as ArrayAdapter<String>).getPosition(payday)
+            paydaySpinner.setSelection(index)
+        }
+    }
 
-        // Sets an OnClickListener on the 'updateButton'. When clicked, a Toast message will be shown.
-        updateButton.setOnClickListener {
-            // Displays a Toast message indicating that the functionality will be available in Part 3.
-            Toast.makeText(requireContext(), "Will be functional at Part 3", Toast.LENGTH_SHORT).show()
+    private fun updateUserProfile() {
+        val userId = auth.currentUser?.uid ?: return
+
+        val name = nameEditText.text.toString().trim()
+        val email = emailEditText.text.toString().trim()
+        val payday = paydaySpinner.selectedItem.toString()
+        val maxGoal = maxSpendingSlider.progress.toDouble()
+
+        // Update user info in "users" collection
+        val userMap = mapOf(
+            "name" to name,
+            "email" to email
+        )
+        db.collection("users").document(userId).update(userMap).addOnSuccessListener {
+            Toast.makeText(requireContext(), "User info updated", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(requireContext(), "Failed to update user info: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+
+        // Update user settings in "user_settings" collection
+        val settingsMap = mapOf(
+            "payday" to payday,
+            "maxGoal" to maxGoal
+        )
+        db.collection("user_settings").document(userId).update(settingsMap).addOnSuccessListener {
+            Toast.makeText(requireContext(), "Settings updated", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(requireContext(), "Failed to update settings: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 } // (Code With Cal, 2025)
-
-//Reference List:
-//Android Developers. 2025. Add an Image composition. [online]. Available at: https://developer.android.com/codelabs/basic-android-kotlin-compose-add-images#2 [Accessed on 9 April 2025]
-//Code With Cal. 2025. Color Picker Android Studio Kotlin Custom Spinner Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=YsKjl8ZbM4g [Accessed on 9 April 2025]
-//Code With Cal. 2025. Room Database Android Studio Kotlin Example Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=-LNg-K7SncM [Accessed on 12 April 2025]
-//Programming w/ Professor Sluiter. 2023. Learn Kotlin 08 how to use the if conditional statement. [online]. Available at: https://www.youtube.com/watch?v=usFfxlnTPHc [Accessed on 13 April 2025]
