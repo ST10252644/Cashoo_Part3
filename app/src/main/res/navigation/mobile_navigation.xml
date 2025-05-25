@@ -35,6 +35,16 @@
         android:name="com.iie.st10320489.marene.ui.profile.EditProfileFragment"
         android:label="@string/title_editProfile"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="com.iie.st10320489.marene.ui.profile.PrivacyFragment"
+        android:label="Privacy"/>
+
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.iie.st10320489.marene.ui.profile.HelpFragment"
+        android:label="Help"/>
+
 
     <fragment
         android:id="@+id/navigation_analysis"

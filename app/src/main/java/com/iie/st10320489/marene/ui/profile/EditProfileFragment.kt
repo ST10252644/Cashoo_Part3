@@ -17,7 +17,10 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
     private lateinit var emailEditText: EditText
     private lateinit var paydaySpinner: Spinner
     private lateinit var maxSpendingSlider: SeekBar
+    private lateinit var salarySlide: SeekBar
+
     private lateinit var maxSpendingValue: TextView
+    private lateinit var salaryValue: TextView
     private lateinit var updateButton: Button
 
     private val auth = FirebaseAuth.getInstance()
@@ -44,7 +47,8 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
 
         maxSpendingSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                maxSpendingValue.text = "R$progress"
+                val realValue = 1 + (progress * 50)
+                maxSpendingValue.text = "R$realValue"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -54,7 +58,32 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
         updateButton.setOnClickListener {
             updateUserProfile()
         }
+
+        val salarySlider = view.findViewById<SeekBar>(R.id.salarySlider)
+        val salaryValue = view.findViewById<TextView>(R.id.salaryValue)
+
+        salarySlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                salaryValue.text = "R$progress"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        val minSavingsSlider = view.findViewById<SeekBar>(R.id.minSavingsSlider)
+        val minSavingsValue = view.findViewById<TextView>(R.id.minSavingsValue)
+
+        minSavingsSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                minSavingsValue.text = "R$progress"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
     }
+
+
 
     private fun setupSpinner() {
         val options = arrayOf("Weekly", "Bi-weekly", "Monthly")

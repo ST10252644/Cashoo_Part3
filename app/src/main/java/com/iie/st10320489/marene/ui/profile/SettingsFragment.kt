@@ -60,19 +60,19 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
         }
 
         editProfileRow.setOnClickListener {
-            Toast.makeText(context, "Continue in Part 3", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Continue in Part 3", Toast.LENGTH_SHORT).show()
             // Navigate to Edit Profile screen
             findNavController().navigate(R.id.action_settingFragment_to_edit_profile_Fragment)
         }
 
         // Set click listener for Privacy row
         privacyRow.setOnClickListener {
-            Toast.makeText(context, "Continue in Part 3", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.privacyFragment)
         }
 
         // Set click listener for Help row
         helpRow.setOnClickListener {
-            Toast.makeText(context, "Continue in Part 3", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.helpFragment)
         }
 
     } // (Code With Cal, 2025)
