@@ -1,5 +1,7 @@
 package com.iie.st10320489.marene.data.entities
 
+import com.google.firebase.database.PropertyName
+
 data class Transaction(
     var transactionId: String = "",
     var userId: String = "",
@@ -13,5 +15,4 @@ data class Transaction(
     var categoryId: String = "",
     var subCategoryId: String? = null,
     var expense: Boolean = true,
-    var recurring: Boolean = false
 )

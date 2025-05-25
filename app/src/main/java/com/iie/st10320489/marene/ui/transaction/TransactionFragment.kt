@@ -1,12 +1,15 @@
 package com.iie.st10320489.marene.ui.transaction
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.iie.st10320489.marene.R
@@ -58,34 +61,76 @@ class TransactionFragment : Fragment() {
     }
 
     private fun loadTransactions() {
-        firestore.collection("transactions")
-            .whereEqualTo("userId", userId)
+        Log.d("TransactionFragment", "Loading transactions for userId: $userId")
+
+        // Correctly query the user's subcollection of transactions
+        firestore.collection("users")
+            .document(userId)
+            .collection("transactions")
             .get()
             .addOnSuccessListener { result ->
+                Log.d("TransactionFragment", "Transaction query success. Documents found: ${result.size()}")
+
                 val transactions = result.mapNotNull { doc ->
-                    doc.toObject<Transaction>().apply { transactionId = doc.id }
+                    val transaction = doc.toObject(Transaction::class.java)
+                    transaction.transactionId = doc.id
+                    Log.d("TransactionFragment", "Loaded transaction: ${transaction.transactionId}, categoryId: ${transaction.categoryId}")
+                    transaction
                 }
 
-                // Now fetch categories and combine
-                firestore.collection("categories")
+                val categoryIds = transactions.map { it.categoryId }.toSet()
+                Log.d("TransactionFragment", "Unique categoryIds: $categoryIds")
+
+                if (categoryIds.isEmpty()) {
+                    Log.d("TransactionFragment", "No category IDs found. Using fallback 'Other' category.")
+                    val fallback = transactions.map {
+                        val otherCategory = Category(categoryId = "Other", name = "Other")
+                        TransactionWithCategory(it, otherCategory)
+                    }
+                    adapter.updateTransactions(fallback)
+                    return@addOnSuccessListener
+                }
+
+                firestore.collection("users")
+                    .document(userId)
+                    .collection("categories")
+                    .whereIn(FieldPath.documentId(), categoryIds.toList())
                     .get()
                     .addOnSuccessListener { categoryResult ->
+                        Log.d("TransactionFragment", "Categories query success. Categories found: ${categoryResult.size()}")
+
                         val categoryMap = categoryResult.associateBy(
-                            { it.id },                      // category ID
-                            { it.toObject<Category>() }     // full Category object
+                            { it.id },
+                            {
+                                val cat = it.toObject(Category::class.java)
+                                Log.d("TransactionFragment", "Loaded category: ${cat.categoryId}, name: ${cat.name}")
+                                cat
+                            }
                         )
 
-
                         val transactionsWithCategory = transactions.map { transaction ->
-                            val category = categoryMap[transaction.categoryId] ?: Category(categoryId = "unknown", categoryName = "Unknown")
+                            val category = categoryMap[transaction.categoryId]
+                                ?: Category(categoryId = "Other", name = "Other")
                             TransactionWithCategory(transaction, category)
                         }
 
-
+                        Log.d("TransactionFragment", "Transactions with categories: ${transactionsWithCategory.size}")
                         adapter.updateTransactions(transactionsWithCategory)
                     }
+                    .addOnFailureListener { e ->
+                        Log.e("TransactionFragment", "Failed to load categories", e)
+                        Toast.makeText(requireContext(), "Failed to load categories: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("TransactionFragment", "Failed to load transactions", e)
+                Toast.makeText(requireContext(), "Failed to load transactions: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+
+
+
 
 
     override fun onDestroyView() {

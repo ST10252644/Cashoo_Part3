@@ -2,19 +2,27 @@ package com.iie.st10320489.marene.ui.filter
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iie.st10320489.marene.R
 import com.iie.st10320489.marene.data.entities.Category
+import com.iie.st10320489.marene.data.entities.SubCategory
 import com.iie.st10320489.marene.data.entities.Transaction
 import com.iie.st10320489.marene.data.entities.TransactionWithCategory
 import com.iie.st10320489.marene.databinding.FragmentFilterBinding
 import com.iie.st10320489.marene.ui.transaction.TransactionAdapter
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class FilterFragment : Fragment() {
 
@@ -23,93 +31,112 @@ class FilterFragment : Fragment() {
 
     private lateinit var adapter: TransactionAdapter
     private var userId: String? = null
-    private var categoryName: String? = null
-    private var subCategoryName: String? = null
+    private var categoryId: String? = null
+    private var subCategoryId: String? = null
 
     private val firestore = FirebaseFirestore.getInstance()
+    private val TAG = "FilterFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Get arguments passed to this fragment (categoryId and subCategoryId)
         arguments?.let {
-            categoryName = it.getString("categoryName")
-            subCategoryName = it.getString("subCategoryName")
+            categoryId = it.getString("categoryId")
+            subCategoryId = it.getString("subCategoryId")
         }
+
+        Log.d(TAG, "Received filter - categoryId: $categoryId, subCategoryId: $subCategoryId")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentFilterBinding.inflate(inflater, container, false)
-        val root = binding.root
 
+        // Initialize adapter with empty list and click listener
         adapter = TransactionAdapter(emptyList()) { transactionWithCategory ->
             val bundle = Bundle().apply {
                 putString("transactionId", transactionWithCategory.transaction.transactionId)
             }
-            // Adjust navigation action ID and destination as needed
             findNavController().navigate(R.id.action_transactionFragment_to_transactionDetailsFragment, bundle)
         }
 
+        // Setup RecyclerView
         binding.recyclerViewFilterTransactions.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewFilterTransactions.adapter = adapter
 
-        val sharedPreferences = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-        val currentUserEmail = sharedPreferences.getString("currentUserEmail", null)
-        userId = sharedPreferences.getString("currentUserId", null)
+        // Get current user ID
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        userId = firebaseUser?.uid
+        Log.d(TAG, "Current Firebase userId: $userId")
 
-        if (!userId.isNullOrEmpty() && currentUserEmail != null) {
+        if (!userId.isNullOrEmpty()) {
+            // Load transactions filtered by category and subcategory (if set)
             loadFilteredTransactions(userId!!)
+        } else {
+            Log.w(TAG, "UserId is null or empty. Cannot load transactions.")
         }
 
-        return root
+        return binding.root
     }
 
     private fun loadFilteredTransactions(userId: String) {
-        var query = firestore.collection("transactions")
-            .whereEqualTo("userId", userId)
+        lifecycleScope.launch {
+            try {
+                var query = firestore.collection("users")
+                    .document(userId)
+                    .collection("transactions")
+                    .whereEqualTo("userId", userId)
 
-        categoryName?.let {
-            query = query.whereEqualTo("categoryName", it)
-        }
+                categoryId?.let {
+                    query = query.whereEqualTo("categoryId", it)
+                }
 
-        subCategoryName?.let {
-            query = query.whereEqualTo("subCategoryName", it)
-        }
+                subCategoryId?.let {
+                    query = query.whereEqualTo("subCategoryId", it)
+                }
 
-        query.get().addOnSuccessListener { documents ->
-            val transactionList = documents.mapNotNull { it.toObject(Transaction::class.java) }
-            val categoryIds = transactionList.map { it.categoryId }.toSet()
+                val snapshot = query.get().await()
+                val transactions = snapshot.documents.mapNotNull { doc ->
+                    doc.toObject(Transaction::class.java)?.apply { transactionId = doc.id }
+                }
 
-            if (categoryIds.isEmpty()) {
-                adapter.updateTransactions(emptyList())
-                return@addOnSuccessListener
-            }
+                val transactionWithCategoryList = transactions.map { transaction ->
+                    val catSnap = firestore.collection("users")
+                        .document(userId)
+                        .collection("categories")
+                        .document(transaction.categoryId)
+                        .get()
+                        .await()
 
-            firestore.collection("categories")
-                .whereIn("categoryId", categoryIds.toList())
-                .get()
-                .addOnSuccessListener { categoryDocs ->
-                    val categoryMap = categoryDocs.associateBy { it.getString("categoryId") }
-                    val transactionsWithCategories = transactionList.mapNotNull { transaction ->
-                        val categoryDoc = categoryMap[transaction.categoryId]
-                        val category = categoryDoc?.toObject(Category::class.java)
-                        if (category != null) {
-                            TransactionWithCategory(transaction, category)
-                        } else {
-                            null
-                        }
+                    val category = if (catSnap.exists()) {
+                        catSnap.toObject(Category::class.java) ?: Category(categoryId = "unknown", name = "Unknown")
+                    } else {
+                        Category(categoryId = "unknown", name = "Unknown")
                     }
-                    adapter.updateTransactions(transactionsWithCategories)
+
+                    TransactionWithCategory(transaction, category)
                 }
-                .addOnFailureListener {
-                    adapter.updateTransactions(emptyList())
-                }
-        }.addOnFailureListener {
-            adapter.updateTransactions(emptyList())
+
+                adapter.updateTransactions(transactionWithCategoryList)
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Error loading transactions", e)
+            }
         }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
+
+
+

@@ -34,7 +34,7 @@ class CategoryAdapter(//((Cal, 2023), (College, 2025)
         val category = categories[position]
         val resolvedColor = ContextCompat.getColor(holder.itemView.context, category.colour)
 
-        holder.categoryTitle.text = category.categoryName
+        holder.categoryTitle.text = category.name
         holder.categoryButton.setImageResource(category.icon)
         holder.categoryButton.background.setTint(resolvedColor)
 

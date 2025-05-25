@@ -9,269 +9,332 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.iie.st10320489.marene.R
 import com.iie.st10320489.marene.databinding.FragmentRewardsBinding
-import com.iie.st10320489.marene.ui.rewards.RewardsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class RewardsFragment : Fragment() { // (Code With Cal, 2025)
+class RewardsFragment : Fragment() {
 
     private var _binding: FragmentRewardsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    //ADAPTER
     private lateinit var bronClmAdapter: ClaimsAdapter
     private lateinit var silClmAdapter: ClaimsAdapter
     private lateinit var gldClmAdapter: ClaimsAdapter
 
-    private lateinit var rewardsViewModel: RewardsViewModel
+    private val firestore = FirebaseFirestore.getInstance()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
-        val homeViewModel =
-            ViewModelProvider(this).get(RewardsViewModel::class.java)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentRewardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // Initialize adapters
+        bronClmAdapter = ClaimsAdapter(emptyList())
+        silClmAdapter = ClaimsAdapter(emptyList())
+        gldClmAdapter = ClaimsAdapter(emptyList())
 
         // RecyclerViews setup
         binding.recyclerClmBronze.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerClmSilver.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerClmGold.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        // (Code With Cal, 2025)
-        // Sample Rewards
-        val bronzeClaims = listOf(
-            ClaimItem("Croissant", "5 pts", R.drawable.croissants),
-            ClaimItem("Cappuccino", "8 pts", R.drawable.capuccino_jpg),
-            ClaimItem("Choco Cookie", "10 pts", R.drawable.cookie),
-            ClaimItem("Frappe", "12 pts", R.drawable.frappe)
-        )
 
-        val silverClaims = listOf(
-            ClaimItem("Sandwich", "15 pts", R.drawable.grilled),
-            ClaimItem("Graduation", "18 pts", R.drawable.kanye),
-            ClaimItem("Journal", "20 pts", R.drawable.journal),
-            ClaimItem("Energy Pack", "22 pts", R.drawable.energy)
-        )
-
-        val goldClaims = listOf(
-            ClaimItem("Shoe Cleaning", "25 pts", R.drawable.clean),
-            ClaimItem("Cashoo Bag", "40 pts", R.drawable.kanbag),
-            ClaimItem("Two Burritos", "35 pts", R.drawable.burrito),
-            ClaimItem("Jordan 4s", "50 pts", R.drawable.jordan4)
-        )
-
-        // Adapters
-        bronClmAdapter = ClaimsAdapter(bronzeClaims)
-        silClmAdapter = ClaimsAdapter(silverClaims)
-        gldClmAdapter = ClaimsAdapter(goldClaims)
-
+        // Assign adapters
         binding.recyclerClmBronze.adapter = bronClmAdapter
         binding.recyclerClmSilver.adapter = silClmAdapter
         binding.recyclerClmGold.adapter = gldClmAdapter
 
-        val sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        // Load rewards
+        loadRewardsFromFirestore()
 
-        // Set the Button listeners
-        binding.ItemClaim.setOnClickListener {
-            // Check if the user has already claimed rewards this month
-            val currentMonth = SimpleDateFormat("MM", Locale.getDefault()).format(Date())
-            val currentYear = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
+        // 🔑 Get current user info from FirebaseAuth
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            val uid = user.uid
+            val email = user.email
 
-            lifecycleScope.launch {
-                val currentUserEmail = sharedPreferences.getString("currentUserEmail", null)
-
-                if (currentUserEmail != null) {
-                    val db = DatabaseInstance.getDatabase(requireContext().applicationContext)
-                    val userDao = db.userDao()
-                    val transactionDao = db.transactionDao()
-                    val userSettingsDao = db.userSettingsDao()
-
-                    val user = withContext(Dispatchers.IO) {
-                        userDao.findUserByEmail(currentUserEmail)
-                    }
-
-                    user?.let {
-                        // Get the current user's total expenses and goals
-                        val userSettings = withContext(Dispatchers.IO) {
-                            userSettingsDao.getUserSettingsByUserId(it.userId)
-                        }
-
-                        val expensesTransactions = withContext(Dispatchers.IO) {
-                            transactionDao.getMonthlyExpenses(it.userId, currentMonth, currentYear)
-                        }
-
-                        val totalExpenses = expensesTransactions.sumOf { txn -> txn.amount }
-                        val maxGoal = userSettings?.maxGoal ?: 0.0
-
-                        val expensePercent = if (maxGoal > 0) (totalExpenses / maxGoal * 100).coerceAtMost(100.0).toInt() else 0
-
-                        val savingsTransactions = withContext(Dispatchers.IO) {
-                            transactionDao.getMonthlySavings(it.userId, currentMonth, currentYear)
-                        }
-
-                        val totalSaved = savingsTransactions.sumOf { txn -> txn.amount }
-                        val minGoal = userSettings?.minGoal ?: 0.0
-
-                        val minPercent = if (minGoal > 0) (totalSaved / minGoal * 100).coerceAtMost(100.0).toInt() else 0
-
-                        // Check conditions and apply the logic
-                        if (expensePercent < 100 && minPercent == 100) {
-                            // Update cashoos with 20 if both conditions are met
-                            val newCashoos = it.cashoos + 20
-                            it.cashoos = newCashoos
-
-                            // Update the cashoos in the database
-                            withContext(Dispatchers.IO) {
-                                userDao.updateUser(it)
-                            }
-
-                            // Display a toast message
-                            Toast.makeText(requireContext(), "You earned 20 Cashoos!", Toast.LENGTH_SHORT).show()
-                        } else if (expensePercent < 100) {
-                            // Only increase cashoos by 10 if the expense condition is met
-                            val newCashoos = it.cashoos + 10
-                            it.cashoos = newCashoos
-
-                            // Update the cashoos in the database
-                            withContext(Dispatchers.IO) {
-                                userDao.updateUser(it)
-                            }
-
-                            Toast.makeText(requireContext(), "You earned 10 Cashoos!", Toast.LENGTH_SHORT).show()
-                        } else if (minPercent == 100) {
-                            // Only increase cashoos by 5 if the savings goal condition is met
-                            val newCashoos = it.cashoos + 5
-                            it.cashoos = newCashoos
-
-                            // Update the cashoos in the database
-                            withContext(Dispatchers.IO) {
-                                userDao.updateUser(it)
-                            }
-
-                            Toast.makeText(requireContext(), "You earned 5 Cashoos!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(requireContext(), "You don't qualify for rewards this month.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+            if (email != null) {
+                loadUserData(uid, email)
+            } else {
+                Log.e("RewardsFragment", "Email not found for user.")
             }
-        } // (Code With Cal, 2025)
 
-
-        /*binding.helpButton.setOnClickListener {
-            findNavController().navigate(R.id.navigation_rewards_help)
-        }*/
-
-        binding.discPage.setOnClickListener {
-            findNavController().navigate(R.id.navigation_rewards_discount)
+            // ✅ Set OnClickListener for Claim button
+            binding.ItemClaim.setOnClickListener {
+                claimRewards(uid)
+            }
+        } ?: run {
+            Log.e("RewardsFragment", "User not logged in.")
         }
-
-        // LOAD USER POINTS FROM DATABASE
-        //val sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-        val currentUserEmail = sharedPreferences.getString("currentUserEmail", null)
-
-        if (currentUserEmail != null) {
-            val db = DatabaseInstance.getDatabase(requireContext().applicationContext)
-            val userDao = db.userDao()
-            val transactionDao = db.transactionDao()
-            val userSettingsDao = db.userSettingsDao()
-
-            lifecycleScope.launch {
-                val currentUserEmail = sharedPreferences.getString("currentUserEmail", null)
-
-                if (currentUserEmail != null) {
-                    val db = DatabaseInstance.getDatabase(requireContext().applicationContext)
-                    val userDao = db.userDao()
-
-                    val user = withContext(Dispatchers.IO) {
-                        // Log the email to check if it's being fetched correctly
-                        Log.d("UserEmail", "Fetching user with email: $currentUserEmail")
-                        userDao.findUserByEmail(currentUserEmail)
-                    }
-
-                    // Check if the user is found
-                    user?.let {
-                        // User is found, proceed with your logic
-                        Log.d("UserInfo", "User found: ${it.userId}, ${it.cashoos}")
-                        val formattedCash = "C ${String.format("%.2f", it.cashoos)}"
-                        view?.findViewById<TextView>(R.id.txtPoints2)?.text = formattedCash
-
-                        // Get current month and year
-                        val currentMonth = SimpleDateFormat("MM", Locale.getDefault()).format(Date())
-                        val currentYear = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
-
-                        // Fetch user settings and transactions
-                        val userSettings = withContext(Dispatchers.IO) {
-                            userSettingsDao.getUserSettingsByUserId(it.userId)
-                        }
-
-                        // Fetch monthly savings
-                        val savingsTransactions = withContext(Dispatchers.IO) {
-                            transactionDao.getMonthlySavings(it.userId, currentMonth, currentYear)
-                        }
-
-                        val totalSaved = savingsTransactions.sumOf { txn -> txn.amount }
-                        val minGoal = userSettings?.minGoal ?: 0.0
-                        val maxGoal = userSettings?.maxGoal ?: 0.0
-
-                        val minPercent = if (minGoal > 0) (totalSaved / minGoal * 100).coerceAtMost(100.0).toInt() else 0
-
-                        view?.findViewById<TextView>(R.id.minGoalPercentage)?.text = "$minPercent%"
-
-                        // Fetch monthly expenses
-                        val expensesTransactions = withContext(Dispatchers.IO) {
-                            transactionDao.getMonthlyExpenses(it.userId, currentMonth, currentYear)
-                        }
-
-                        val totalExpenses = expensesTransactions.sumOf { txn -> txn.amount }
-
-                        // Calculate expense percentage
-                        val expensePercent = if (maxGoal > 0) (totalExpenses / maxGoal * 100).coerceAtMost(100.0).toInt() else 0
-
-                        view?.findViewById<TextView>(R.id.maxGoalPercentage)?.text = "$expensePercent%"
-                    } ?: run {
-                        // Handle case where user is not found
-                        Log.e("UserInfo", "User not found for email: $currentUserEmail")
-                    }
-                }
-            }
-
-
-        } // (Code With Cal, 2025)
-
 
         return root
     }
+
+    private fun getImageResourceByName(name: String): Int {
+        return resources.getIdentifier(name, "drawable", requireContext().packageName)
+    }
+
+    private fun loadRewardsFromFirestore() {
+        firestore.collection("rewards")
+            .get()
+            .addOnSuccessListener { result ->
+                val bronzeList = mutableListOf<ClaimItem>()
+                val silverList = mutableListOf<ClaimItem>()
+                val goldList = mutableListOf<ClaimItem>()
+
+                for (document in result) {
+                    val reward = document.toObject(RewardItem::class.java)
+                    val imageResId = getImageResourceByName(reward.imageUrl)
+
+                    val item = ClaimItem(
+                        reward.name,
+                        "${reward.amount} pts",
+                        imageResId
+                    )
+
+                    when (reward.type.lowercase()) {
+                        "bronze" -> bronzeList.add(item)
+                        "silver" -> silverList.add(item)
+                        "gold" -> goldList.add(item)
+                    }
+                }
+
+                // Update adapters with loaded data
+                bronClmAdapter.updateList(bronzeList)
+                silClmAdapter.updateList(silverList)
+                gldClmAdapter.updateList(goldList)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Failed to load rewards: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e("Firestore", "Error loading rewards", e)
+            }
+    }
+
+    private fun loadUserData(uid: String, email: String) {
+        lifecycleScope.launchWhenStarted {
+            try {
+                Log.d("RewardsFragment", "Starting loadUserData with UID: $uid and Email: $email")
+
+                val userDoc = firestore.collection("users").document(uid).get().await()
+                if (!userDoc.exists()) {
+                    Log.e("RewardsFragment", "User document not found for UID: $uid")
+                    return@launchWhenStarted
+                }
+                Log.d("RewardsFragment", "User document found for UID: $uid")
+
+                val cashoos = userDoc.getDouble("cashoos") ?: 0.0
+                binding.txtPoints2.text = "C ${String.format("%.2f", cashoos)}"
+
+                val currentMonth = SimpleDateFormat("MM", Locale.getDefault()).format(Date())
+                val currentYear = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
+                val startDate = "$currentYear-$currentMonth-01"
+                val endDate = "$currentYear-$currentMonth-31"
+
+                val settingsDoc = firestore.collection("user_settings").document(uid).get().await()
+                if (!settingsDoc.exists()) {
+                    Log.e("RewardsFragment", "User settings not found for UID: $uid")
+                    return@launchWhenStarted
+                }
+                val minGoal = settingsDoc.getDouble("minGoal") ?: 0.0
+                val maxGoal = settingsDoc.getDouble("maxGoal") ?: 0.0
+                Log.d("RewardsFragment", "minGoal: $minGoal, maxGoal: $maxGoal")
+
+                // Fetch all categories and find categoryIds for "Savings" and "Expense"
+                val categoriesSnapshot = firestore.collection("users").document(uid)
+                    .collection("categories")
+                    .get()
+                    .await()
+
+                val categoryMap = categoriesSnapshot.documents.associateBy(
+                    { it.getString("name")?.lowercase() ?: "" },
+                    { it.id }
+                )
+
+                val savingsCategoryId = categoryMap["savings"]
+
+                // Check for null category IDs
+                if (savingsCategoryId == null) {
+                    Log.e("RewardsFragment", "Savings or Expense category ID not found.")
+                    return@launchWhenStarted
+                }
+
+                // Fetch savings
+                val savingsSnapshot = firestore.collection("users").document(uid)
+                    .collection("transactions")
+                    .whereEqualTo("categoryId", savingsCategoryId)
+                    .whereGreaterThanOrEqualTo("dateTime", startDate)
+                    .whereLessThanOrEqualTo("dateTime", endDate)
+                    .get()
+                    .await()
+
+
+                val totalSaved = savingsSnapshot.documents.sumOf { it.getDouble("amount") ?: 0.0 }
+                val minPercent = if (minGoal > 0) (totalSaved / minGoal * 100).coerceAtMost(100.0).toInt() else 0
+                binding.minGoalPercentage.text = "$minPercent%"
+                Log.d("RewardsFragment", "Total saved: $totalSaved")
+                Log.d("RewardsFragment", "Min goal percentage: $minPercent%")
+
+                // Fetch expenses
+                val expenseSnapshot = firestore.collection("users").document(uid)
+                    .collection("transactions")
+                    .whereEqualTo("expense", true)
+                    .whereGreaterThanOrEqualTo("dateTime", startDate)
+                    .whereLessThanOrEqualTo("dateTime", endDate)
+                    .get()
+                    .await()
+
+
+                val totalExpenses = expenseSnapshot.documents.sumOf { it.getDouble("amount") ?: 0.0 }
+                val expensePercent = if (maxGoal > 0) (100 - (totalExpenses / maxGoal * 100)).coerceIn(0.0, 100.0).toInt() else 0
+                binding.maxGoalPercentage.text = "$expensePercent%"
+                Log.d("RewardsFragment", "Total expenses: $totalExpenses")
+                Log.d("RewardsFragment", "Max goal percentage: $expensePercent%")
+
+
+            } catch (e: Exception) {
+                Log.e("RewardsFragment", "Error loading user data: ${e.message}", e)
+            }
+        }
+    }
+
+
+
+
+
+    private fun claimRewards(uid: String) {
+        lifecycleScope.launchWhenStarted {
+            try {
+                val currentMonth = SimpleDateFormat("MM", Locale.getDefault()).format(Date())
+                val currentYear = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
+                val startDate = "$currentYear-$currentMonth-01"
+                val endDate = "$currentYear-$currentMonth-31"
+
+                // 1. Get user document and settings
+                val userDocRef = firestore.collection("users").document(uid)
+                val userDoc = userDocRef.get().await()
+                if (!userDoc.exists()) {
+                    Toast.makeText(requireContext(), "User not found.", Toast.LENGTH_SHORT).show()
+                    return@launchWhenStarted
+                }
+                val currentCashoos = userDoc.getDouble("cashoos") ?: 0.0
+                val lastClaimed = userDoc.getString("lastClaimedMonth") ?: ""
+
+                // Prevent multiple claims
+                val currentClaimKey = "$currentYear-$currentMonth"
+                if (lastClaimed == currentClaimKey) {
+                    Toast.makeText(requireContext(), "You've already claimed your rewards this month.", Toast.LENGTH_LONG).show()
+                    return@launchWhenStarted
+                }
+
+                val userSettingsDoc = firestore.collection("user_settings").document(uid).get().await()
+                if (!userSettingsDoc.exists()) {
+                    Toast.makeText(requireContext(), "User settings not found.", Toast.LENGTH_SHORT).show()
+                    return@launchWhenStarted
+                }
+                val minGoal = userSettingsDoc.getDouble("minGoal") ?: 0.0
+                val maxGoal = userSettingsDoc.getDouble("maxGoal") ?: 0.0
+
+                // 2. Get category IDs
+                val categoriesSnapshot = firestore.collection("users").document(uid)
+                    .collection("categories")
+                    .get()
+                    .await()
+
+                val categoryMap = categoriesSnapshot.documents.associateBy(
+                    { it.getString("name")?.lowercase() ?: "" },
+                    { it.id }
+                )
+
+                val savingsCategoryId = categoryMap["savings"]
+                if (savingsCategoryId == null) {
+                    Toast.makeText(requireContext(), "Savings category not found.", Toast.LENGTH_SHORT).show()
+                    return@launchWhenStarted
+                }
+
+                // 3. Calculate min goal percentage
+                val savingsSnapshot = firestore.collection("users").document(uid)
+                    .collection("transactions")
+                    .whereEqualTo("categoryId", savingsCategoryId)
+                    .whereGreaterThanOrEqualTo("dateTime", startDate)
+                    .whereLessThanOrEqualTo("dateTime", endDate)
+                    .get()
+                    .await()
+
+                val totalSaved = savingsSnapshot.documents.sumOf { it.getDouble("amount") ?: 0.0 }
+                val minPercent = if (minGoal > 0) (totalSaved / minGoal * 100).coerceAtMost(100.0).toInt() else 0
+
+                // 4. Calculate expense percentage
+                val expenseSnapshot = firestore.collection("users").document(uid)
+                    .collection("transactions")
+                    .whereEqualTo("expense", true)
+                    .whereGreaterThanOrEqualTo("dateTime", startDate)
+                    .whereLessThanOrEqualTo("dateTime", endDate)
+                    .get()
+                    .await()
+
+                val totalExpenses = expenseSnapshot.documents.sumOf { it.getDouble("amount") ?: 0.0 }
+                val maxPercent = if (maxGoal > 0) (100 - (totalExpenses / maxGoal * 100)).coerceIn(0.0, 100.0).toInt() else 0
+
+                // 5. Decide rewards
+                val minGoalMet = minPercent >= 100
+                val maxGoalMet = maxPercent > 0
+                var reward = 0.0
+                var message = "No cashoos to claim. Come back at the end of the month."
+
+                when {
+                    minGoalMet && maxGoalMet -> {
+                        reward = 20.0
+                        message = "You earned 20 cashoos for meeting both your savings and spending goals!"
+                    }
+                    minGoalMet -> {
+                        reward = 10.0
+                        message = "You earned 10 cashoos for meeting your savings goal!"
+                    }
+                    maxGoalMet -> {
+                        reward = 5.0
+                        message = "You earned 5 cashoos for staying within your spending goal!"
+                    }
+                }
+
+                if (reward > 0.0) {
+                    val updatedCashoos = currentCashoos + reward
+                    userDocRef.update(
+                        mapOf(
+                            "cashoos" to updatedCashoos,
+                            "lastClaimedMonth" to currentClaimKey
+                        )
+                    ).await()
+                    binding.txtPoints2.text = "C ${String.format("%.2f", updatedCashoos)}"
+                }
+
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+
+            } catch (e: Exception) {
+                Log.e("RewardsFragment", "Error claiming rewards: ${e.message}", e)
+                Toast.makeText(requireContext(), "An error occurred while claiming rewards.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-} // (Code With Cal, 2025)
-
-//Reference List:
-//Angga Risky. 2017. Rewards UI Design to Android XML Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=fjXMx_iLkTY [Accessed on 10 April 2025]
-//GeeksforGeeks. 2025. Android UI Layouts. [online]. Available at: https://www.geeksforgeeks.org/android-ui-layouts/ [Accessed on 10 April 2025]
-//Muhammadumarch. 2023. Implementing Navigation in Your Android App with Android Navigation Component. [online]. Available at: https://medium.com/@muhammadumarch321/implementing-navigation-in-your-android-app-with-android-navigation-component-ff22a3d300a [Accessed on 11 April 2025]
-//Android Developers. 2025. Fragment lifecycle. [online]. Available at: https://developer.android.com/guide/fragments/lifecycle [Accessed on 12 April 2025]
-//Android Knowledge. 2022. RecyclerView in Android Studio using Kotlin | Source Code | 2024. [online]. Available at: https://www.youtube.com/watch?v=IYhmpUmeGOQ [Accessed on 12 April 2025]
-//Android Developers. 2025. Add an Image composition. [online]. Available at: https://developer.android.com/codelabs/basic-android-kotlin-compose-add-images#2 [Accessed on 9 April 2025]
-//StackOverflow. 2021. Trying to create a simple recyclerView in Kotlin, but the adapter is not applying properly. [online]. Available at: https://stackoverflow.com/questions/43012903/trying-to-create-a-simple-recyclerview-in-kotlin-but-the-adapter-is-not-applyin [Accessed on 10 April 2025]
-//Android Knowledge. 2024. ViewModel in Android Studio using Kotlin | Android Knowledge. [video online]. Available at: https://www.youtube.com/watch?v=v32hSKtlH9A [Accessed on 11 April 2025]
-//Code With Cal. 2025. Room Database Android Studio Kotlin Example Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=-LNg-K7SncM [Accessed on 12 April 2025]
-//Android Developers. 2025. Accessing data using Room DAOs. [online]. Available at: https://developer.android.com/training/data-storage/room/accessing-data [Accessed on 15 April 2025]
+}

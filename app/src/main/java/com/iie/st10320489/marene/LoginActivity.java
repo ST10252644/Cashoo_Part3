@@ -3,63 +3,50 @@ package com.iie.st10320489.marene;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.*;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.iie.st10320489.marene.data.database.AppDatabase;
-import com.iie.st10320489.marene.data.entities.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private EditText emailEditText, passwordEditText;
+    private ImageView togglePasswordVisibility;
+    private boolean isPasswordVisible = false;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {//((Cal, 2023), (College, 2025)
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
         TextView registerNow = findViewById(R.id.registerNowText);
-        EditText emailEditText = findViewById(R.id.emailEditText);
-        EditText passwordEditText = findViewById(R.id.passwordEditText);
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
         Button loginButton = findViewById(R.id.loginButton);
-
         TextView forgotPassword = findViewById(R.id.forgotPassword);
+        togglePasswordVisibility = findViewById(R.id.togglePasswordVisibility);
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Kindly contact us at info@cashoo.com to reset password", Toast.LENGTH_LONG).show();
-            }
-        });
+        forgotPassword.setOnClickListener(v ->
+                Toast.makeText(LoginActivity.this, "Kindly contact us at info@cashoo.com to reset password", Toast.LENGTH_LONG).show()
+        );
 
-        ImageView togglePasswordVisibility = findViewById(R.id.togglePasswordVisibility);
-
-        final boolean[] isPasswordVisible = {false};
-
-        togglePasswordVisibility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isPasswordVisible[0]) {
-                    // Hide password
-                    passwordEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    togglePasswordVisibility.setImageResource(R.drawable.ic_eye_off); // eye closed
-                } else {
-                    // Show password
-                    passwordEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    togglePasswordVisibility.setImageResource(R.drawable.ic_eye); // eye open
-                }
-
-                // Move cursor to end
-                passwordEditText.setSelection(passwordEditText.getText().length());
-
-                // Toggle the state
-                isPasswordVisible[0] = !isPasswordVisible[0];
-            }
-        });
+        togglePasswordVisibility.setOnClickListener(v -> togglePassword());
 
         registerNow.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
@@ -77,85 +64,47 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //clear table
-    private void clearAllData() {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "cashoo_database")
-                .allowMainThreadQueries()
-                .build();
-
-        // Clear each table manually
-        db.userDao().deleteAllTableName();
-        db.userSettingsDao().deleteAllTableName();
-        db.transactionDao().deleteAllTableName();
-        db.categoryDao().deleteAllTableName();
-        db.subCategoryDao().deleteAllTableName();
-        db.rewardDao().deleteAllTableName();
-        db.rewardHistoryDao().deleteAllTableName();
-        db.activityLogDao().deleteAllTableName();
-
-        Toast.makeText(this, "All data deleted successfully!", Toast.LENGTH_SHORT).show();
+    private void togglePassword() {
+        if (isPasswordVisible) {
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            togglePasswordVisibility.setImageResource(R.drawable.ic_eye_off);
+        } else {
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            togglePasswordVisibility.setImageResource(R.drawable.ic_eye);
+        }
+        passwordEditText.setSelection(passwordEditText.getText().length());
+        isPasswordVisible = !isPasswordVisible;
     }
-
 
     private void loginUser(String email, String password) {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "cashoo_database")
-                .allowMainThreadQueries()
-                .build();
-        User user = db.userDao().findUserByEmail(email); // you'll create this in your DAO
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success
+                            FirebaseUser user = mAuth.getCurrentUser();
 
-        if (user != null && user.getPassword().equals(password)) {
-            // Save login status and email to SharedPreferences
-            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("currentUserEmail", email); // Store email
-            editor.putBoolean("isLoggedIn", true); // Flag to check if the user is logged in
-            editor.apply(); // Commit the changes
+                            // Save login status and email to SharedPreferences
+                            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("currentUserEmail", user.getEmail());
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.apply();
 
-            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-            // Go to the Home Fragment
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("USER_NAME", user.getName());
-            startActivity(intent);
-            finish(); // close LoginActivity so user can't press back to login
-        } else {
-            Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-        }
+                            // Go to the Main Activity (Home)
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("USER_EMAIL", user.getEmail());
+                            startActivity(intent);
+                            finish(); // Prevent going back to login
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
-}//((Cal, 2023), (College, 2025)
-
-//Bibliography
-//AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
-//AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
-//Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
-//[Accessed 26 April 2025].
-//Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
-//Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
-//[Accessed 27 April 2025].
-//Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
-//Available at: hRps://developer.android.com/develop#core-areas
-//[Accessed 28 April 2025].
-//Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
-//[Accessed 27 April 2025].
-//College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
-//Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
-//Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
-//[Accessed 28 April 2025].
-
-//androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
-//AndroidDevelopers, 2023. Layouts in Views. [Online]
-//Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
-//Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
-//Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
-//[Accessed 15 April 2025].
-//Team, G. D. T., 2024. Add repository and Manual DI. [Online]
-//Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
-//[Accessed 22 April 2025].
-//Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
-//[Accessed 24 April 2025].
-//Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
-//Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
-//[Accessed 23 April 2025].
-
+}

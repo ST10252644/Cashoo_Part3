@@ -15,15 +15,14 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
     val categories: LiveData<List<Category>> = _categories
 
     // Fetch categories by userId from Firebase
-    fun getCategoriesByUser(userId: Int) {
-        firestore.collection("categories")
-            .whereEqualTo("userId", userId)
+    fun getCategoriesByUser(userId: String) {
+        firestore.collection("users")
+            .document(userId)
+            .collection("categories")
             .get()
             .addOnSuccessListener { documents ->
-                val categoryList = mutableListOf<Category>()
-                for (doc in documents) {
-                    val category = doc.toObject(Category::class.java)
-                    categoryList.add(category)
+                val categoryList = documents.mapNotNull { doc ->
+                    doc.toObject(Category::class.java)
                 }
                 _categories.postValue(categoryList)
             }
@@ -31,6 +30,7 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
                 _categories.postValue(emptyList())
             }
     }
+
 
     // Insert new category
     fun insert(category: Category) {

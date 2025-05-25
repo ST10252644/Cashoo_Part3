@@ -6,12 +6,14 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iie.st10320489.marene.R
 import com.iie.st10320489.marene.data.entities.SubCategory
+import java.util.UUID
 
 class SubCategoryDialogFragment : DialogFragment() {
 
@@ -45,19 +47,29 @@ class SubCategoryDialogFragment : DialogFragment() {
     private fun addSubCategoryToFirestore(subcategoryName: String) {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val subCategoryRef = firestore.collection("subcategories").document()
+            val userId = currentUser.uid
+            val subcategoryId = UUID.randomUUID().toString()
+
             val subCategory = SubCategory(
-                subCategoryId = subCategoryRef.id,
+                subCategoryId = subcategoryId,
                 name = subcategoryName,
-                userId = currentUser.uid
+                userId = userId
             )
+
+            val subCategoryRef = firestore
+                .collection("users")
+                .document(userId)
+                .collection("categories")
+                .document("Other")
+                .collection("subcategories")
+                .document(subcategoryId)
 
             subCategoryRef.set(subCategory)
                 .addOnSuccessListener {
                     (parentFragment as? SubcategoryFragment)?.loadSubcategories()
                 }
                 .addOnFailureListener { e ->
-                    // Handle the error
+                    Toast.makeText(context, "Failed to add subcategory: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }

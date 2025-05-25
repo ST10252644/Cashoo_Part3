@@ -28,6 +28,17 @@
     <color name="purple">#6366F1</color>
     <color name="light_grey">#D4D6DD</color>
     <color name="red">#FF505A</color>
+
+
+    <color name="vibrant_orange">#FFA726</color>
+    <color name="vibrant_yellow">#FFEB3B</color>
+    <color name="vibrant_pink">#EC407A</color>
+    <color name="vibrant_blue">#42A5F5</color>
+    <color name="vibrant_purple">#AB47BC</color>
+    <color name="vibrant_green">#66BB6A</color>
+    <color name="vibrant_red">#EF5350</color>
+    <color name="vibrant_teal">#26A69A</color>
+
 </resources>
 <!-- (Color Hex, 2025) -->
 
