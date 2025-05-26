@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/profileCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#A6A0D4"
+                android:background="@drawable/rounded_icon_background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/chancilla_demo" />
+
+            <ImageView
+                android:id="@+id/cameraIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:backgroundTint="@color/nav_active"
+                android:src="@drawable/ic_edit" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Name"
+            android:textColor="@color/text_heading"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bordered_box"
+            android:fontFamily="@font/inter_regular"
+            android:hint="John"
+            android:paddingLeft="14dp"
+            android:paddingTop="10dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:text="Email Address"
+            android:textColor="@color/text_heading"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/signupEmailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/bordered_box"
+            android:fontFamily="@font/inter_regular"
+            android:hint="example@example.com"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="14dp"
+            android:paddingTop="10dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="How often do you get paid?"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/text_heading"
+            android:textSize="12sp"/>
+
+        <Spinner
+            android:id="@+id/paydaySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bordered_box"
+            android:fontFamily="@font/inter_regular"
+            android:paddingLeft="14dp"
+            android:paddingTop="10dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/text"
+            android:textSize="14sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="What's your salary?"
+                android:textColor="@color/text_heading"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/salaryValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R0"
+                android:textColor="@color/text_heading"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/salarySlider"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/slider_progress"
+            android:thumb="@drawable/ic_handle"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="Set a minimum savings goal"
+                android:textColor="@color/text_heading"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/minSavingsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R0"
+                android:textColor="@color/text_heading"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/minSavingsSlider"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/slider_progress"
+            android:thumb="@drawable/ic_handle" />
+
+        <TextView
+            android:id="@+id/learnSavings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/inter_semibold"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Learn More"
+            android:textColor="@color/tertiary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="Set a maximum spending goal"
+                android:textColor="@color/text_heading"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/maxSpendingValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R0"
+                android:textColor="@color/text_heading"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/maxSpendingSlider"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/slider_progress"
+            android:thumb="@drawable/ic_handle" />
+
+        <TextView
+            android:id="@+id/learnSpending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/inter_semibold"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Learn More"
+            android:textColor="@color/tertiary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/inter_semibold"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Update Profile"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textColorLink="#48B381"
+            android:textSize="12sp"
+            app:rippleColor="#48B381"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
