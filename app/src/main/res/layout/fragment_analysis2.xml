@@ -8,8 +8,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
-
     <!--(AndroidDevelopers, 2023), (Kay, 2022), (Coder, 2022), (Coder, 2024)-->
+    <!-- Main scrollable content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+            <!--(Technology, 2020), (GeeksforGeeks, 2024)-->
+            <!-- Fragment container for MonthlySummaryFragment -->
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
@@ -29,6 +30,7 @@
                 app:navGraph="@navigation/mobile_navigation"
                 tools:fragment=".graphs.MonthlySummaryFragment" />
 
+            <!-- Section for the graphs -->
             <LinearLayout
                 android:id="@+id/bar_graph_section"
                 android:layout_width="match_parent"
@@ -37,7 +39,7 @@
                 android:padding="16dp"
                 android:background="#FFFFFF">
 
-                <!-- Title and Icons Row -->
+                <!-- Title -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -56,32 +58,17 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/rounded_icon_background"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_search" />
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="@drawable/rounded_icon_background"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_calendar" />
                 </LinearLayout>
-
                 <!--(AndroidDevelopers, 2023), (Kay, 2022), (Coder, 2022), (Coder, 2024)-->
-                <!-- Pie Chart -->
+
+                <!-- Pie Chart for total expenses -->
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="24dp" />
 
-                <!-- Details Table -->
+                <!-- Dynamic layout for category breakdown -->
                 <LinearLayout
                     android:id="@+id/detailsLayout"
                     android:layout_width="match_parent"
@@ -90,6 +77,7 @@
                     android:layout_marginTop="32dp"
                     android:paddingHorizontal="8dp">
 
+                    <!-- Static heading row (gets removed in code, replaced programmatically) -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -128,8 +116,8 @@
                             android:gravity="end" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <!-- Income and Expense -->
+                <!--(Technology, 2020), (GeeksforGeeks, 2024)-->
+                <!-- Income and Expense visual block -->
                 <LinearLayout
                     android:id="@+id/incomeExpenseSection"
                     android:layout_width="match_parent"
@@ -138,6 +126,7 @@
                     android:padding="50dp"
                     android:gravity="center">
 
+                    <!-- Income block -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -168,6 +157,7 @@
                             android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
+                    <!-- Expense block -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -199,7 +189,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Total Category Expense Header -->
+                <!-- Section header -->
                 <LinearLayout
                     android:id="@+id/curvedCard"
                     android:layout_width="match_parent"
@@ -222,7 +212,7 @@
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
 
-                <!--  TabLayout  -->
+                <!-- Tab selector for bar chart -->
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
@@ -234,53 +224,37 @@
                     app:tabSelectedTextColor="@android:color/black"
                     app:tabTextColor="#808080" />
 
-                <!-- Bar Chart -->
+                <!-- Bar chart for weekly/monthly/yearly data -->
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/barChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="20dp" />
 
-
-
-
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
     <!--(AndroidDevelopers, 2023), (Kay, 2022), (Coder, 2022), (Coder, 2024)-->
-
+    <!--(Technology, 2020), (GeeksforGeeks, 2024)-->
 
     <!--//Bibliography
-       //AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
-       //AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
-       //Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
-       //[Accessed 26 April 2025].
-       //Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
-       //Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
-       //[Accessed 27 April 2025].
-       //Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
-       //Available at: hRps://developer.android.com/develop#core-areas
-       //[Accessed 28 April 2025].
-       //Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
-       //[Accessed 27 April 2025].
-       //College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
-       //Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
-       //Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
-       //[Accessed 28 April 2025].
 
-       //androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
-       //AndroidDevelopers, 2023. Layouts in Views. [Online]
-       //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
-       //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
-       //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
-       //[Accessed 15 April 2025].
-       //Team, G. D. T., 2024. Add repository and Manual DI. [Online]
-       //Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
-       //[Accessed 22 April 2025].
-       //Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
-       //[Accessed 24 April 2025].
-       //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
-       //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
-       //[Accessed 23 April 2025]. -->
+   //College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+   //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+   //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+   //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+   //[Accessed 15 April 2025].
+   //Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+   //Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+   //[Accessed 22 April 2025].
+   //Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+   //[Accessed 24 April 2025].
+   //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+   //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+   //[Accessed 23 April 2025].
+   //Firebase, 2023. Ge=ng Started with Firebase on Android. [Online] Available at: hLps://youtu.be/jbHfJpoOzkl?si=rQ0hPeu_qKWpuAlm [Accessed 27 May 2025].
+   //Technology, S., 2020. 017 How to create MP Android Chart from Firebase RealKme Database. [Online]
+   //Available at: hLps://youtu.be/C0O9u0jd6nQ?si=c-H-xO4ISG2DWqQx [Accessed 22 May 2025].
+   //GeeksforGeeks, 2024. How to Create and Add Data to Firebase Firestore in Android. [Online] Available at: hLps://www.geeksforgeeks.org/create-and-add-data-to-firebase-firestore-in- android/
+   //[Accessed 23 May 2025]. -->
