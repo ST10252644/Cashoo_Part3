@@ -59,7 +59,7 @@ class TransactionAdapter(
 
 
         // Sets the transaction amount text and color based on whether it's income or expense
-        private fun setTransactionAmount(transaction: com.iie.st10320489.marene.data.entities.Transaction) {
+        private fun setTransactionAmount(transaction: Transaction) {
             val context = binding.root.context
             if (transaction.expense) {
                 binding.txtTransactionAmount.text = String.format("-R%.2f", transaction.amount)

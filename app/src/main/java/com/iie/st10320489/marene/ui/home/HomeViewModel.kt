@@ -69,7 +69,7 @@ class HomeViewModel : ViewModel() {
                     }
 
                     val transactionWithCategories = transactions.map { transaction ->
-                        val categoryId = transaction.categoryId ?: "Other"
+                        val categoryId = transaction.categoryId
 
                         val categoryDoc = db.collection("users")
                             .document(uid)

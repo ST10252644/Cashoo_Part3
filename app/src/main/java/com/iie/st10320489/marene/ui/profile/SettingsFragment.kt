@@ -20,7 +20,7 @@ import com.iie.st10320489.marene.LoginActivity
 import com.iie.st10320489.marene.R
 import com.iie.st10320489.marene.ui.profile.EditProfileFragment
 
-class SettingsFragment : Fragment() { // (Code With Cal, 2025)
+class SettingsFragment : Fragment() {
 
     // Variable to store the user's ID
     private var userId: Int = 0
@@ -34,7 +34,6 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -56,26 +55,13 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
         loadUserData()
 
         logoutButton.setOnClickListener {
-            showLogoutDialog() // Show confirmation dialog before logging out
+            showLogoutDialog()
         }
 
         editProfileRow.setOnClickListener {
-            //Toast.makeText(context, "Continue in Part 3", Toast.LENGTH_SHORT).show()
-            // Navigate to Edit Profile screen
             findNavController().navigate(R.id.action_settingFragment_to_edit_profile_Fragment)
         }
-
-        // Set click listener for Privacy row
-        privacyRow.setOnClickListener {
-            findNavController().navigate(R.id.privacyFragment)
-        }
-
-        // Set click listener for Help row
-        helpRow.setOnClickListener {
-            findNavController().navigate(R.id.helpFragment)
-        }
-
-    } // (Code With Cal, 2025)
+    }
 
     // Load user data and chinchilla avatar from Firebase
     private fun loadUserData() {
@@ -84,8 +70,12 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
         val firebaseUserId = auth.currentUser?.uid
 
         firebaseUserId?.let { uid ->
-            // Load user basic information
-            db.collection("users").document(uid).get()
+            // Load user basic information from the subcollection where it's actually stored
+            db.collection("users")
+                .document(uid)
+                .collection("userProfiles")
+                .document("profile")
+                .get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
                         val name = document.getString("name") ?: ""
@@ -94,24 +84,28 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
 
                         // Update UI with user data
                         val fullName = "$name $surname".trim()
-                        val sentenceCaseName = fullName.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-                        profileNameTextView.text = if (sentenceCaseName.isNotEmpty()) sentenceCaseName else "User"
+                        val sentenceCaseName = fullName.lowercase().replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase() else it.toString()
+                        }
+                        val displayName = if (sentenceCaseName.isNotEmpty()) sentenceCaseName else "User"
+
+                        profileNameTextView.text = displayName
 
                         // Use email as username or extract username from email
                         val username = if (email.isNotEmpty()) {
-                            email.substringBefore("@").lowercase()
+                            "@" + email.substringBefore("@").lowercase()
                         } else {
-                            "user"
+                            "@user"
                         }
                         usernameTextView.text = username
 
                         // Load user settings for chinchilla avatar
                         loadUserChinchillaAvatar(uid)
                     } else {
-                        Log.w("SettingsFragment", "User document does not exist")
+                        Log.w("SettingsFragment", "User profile document does not exist")
                         // Set default values
                         profileNameTextView.text = "User"
-                        usernameTextView.text = "user"
+                        usernameTextView.text = "@user"
                         loadUserChinchillaAvatar(uid)
                     }
                 }
@@ -119,14 +113,14 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
                     Log.e("SettingsFragment", "Failed to load user data: ", exception)
                     // Set default values on error
                     profileNameTextView.text = "User"
-                    usernameTextView.text = "user"
+                    usernameTextView.text = "@user"
                     loadUserChinchillaAvatar(uid)
                 }
         } ?: run {
             Log.w("SettingsFragment", "No authenticated user found")
             // Set default values if no user is authenticated
             profileNameTextView.text = "User"
-            usernameTextView.text = "user"
+            usernameTextView.text = "@user"
             // Set default avatar
             profileImageView.setImageResource(R.drawable.ic_profile)
         }
@@ -167,9 +161,9 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
             .setTitle("Log out")
             .setMessage("Are you sure you want to log out? You'll need to login again to use the app.")
             .setPositiveButton("Log out") { _, _ ->
-                performLogout() // Perform logout if user confirms
+                performLogout()
             }
-            .setNegativeButton("Cancel", null) // Dismiss dialog if user cancels
+            .setNegativeButton("Cancel", null)
             .show()
     }
 
@@ -179,7 +173,8 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
         FirebaseAuth.getInstance().signOut()
 
         // Clear user session from shared preferences
-        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", android.content.Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_prefs", android.content.Context.MODE_PRIVATE)
         sharedPreferences.edit().clear().apply()
 
         // Create intent to start LoginActivity and clear activity backstack
@@ -188,11 +183,5 @@ class SettingsFragment : Fragment() { // (Code With Cal, 2025)
         startActivity(intent)
 
         requireActivity().finish()
-    } // (Code With Cal, 2025)
+    }
 }
-
-//Reference List:
-//Android Developers. 2025. Add an Image composition. [online]. Available at: https://developer.android.com/codelabs/basic-android-kotlin-compose-add-images#2 [Accessed on 9 April 2025]
-//Code With Cal. 2025. Color Picker Android Studio Kotlin Custom Spinner Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=YsKjl8ZbM4g [Accessed on 9 April 2025]
-//Code With Cal. 2025. Room Database Android Studio Kotlin Example Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=-LNg-K7SncM [Accessed on 12 April 2025]
-//Programming w/ Professor Sluiter. 2023. Learn Kotlin 08 how to use the if conditional statement. [online]. Available at: https://www.youtube.com/watch?v=usFfxlnTPHc [Accessed on 13 April 2025]

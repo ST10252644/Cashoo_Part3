@@ -11,17 +11,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iie.st10320489.marene.R
 
-class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
+class EditProfileFragment : Fragment() {
 
     private lateinit var nameEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var paydaySpinner: Spinner
     private lateinit var maxSpendingSlider: SeekBar
-    private lateinit var salarySlide: SeekBar
+    private lateinit var salarySlider: SeekBar
+    private lateinit var minSavingsSlider: SeekBar
 
     private lateinit var maxSpendingValue: TextView
     private lateinit var salaryValue: TextView
+    private lateinit var minSavingsValue: TextView
     private lateinit var updateButton: Button
+    private lateinit var profileImageView: ImageView
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
@@ -39,18 +42,43 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
         paydaySpinner = view.findViewById(R.id.paydaySpinner)
         maxSpendingSlider = view.findViewById(R.id.maxSpendingSlider)
         maxSpendingValue = view.findViewById(R.id.maxSpendingValue)
+        salarySlider = view.findViewById(R.id.salarySlider)
+        salaryValue = view.findViewById(R.id.salaryValue)
+        minSavingsSlider = view.findViewById(R.id.minSavingsSlider)
+        minSavingsValue = view.findViewById(R.id.minSavingsValue)
         updateButton = view.findViewById(R.id.updateButton)
+        profileImageView = view.findViewById(R.id.profileImage)
 
         setupSpinner()
         loadUserChinchillaAvatar()
-        loadUserData()
+        loadUserData() // This will now populate all fields with existing data
 
+        // Salary slider listener
+        salarySlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val salaryAmount = progress * 1000 // Scale up the salary (0-100 becomes 0-100,000)
+                salaryValue.text = "R$salaryAmount"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        // Min savings slider listener
+        minSavingsSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val savingsAmount = progress * 100 // Scale up savings (0-100 becomes 0-10,000)
+                minSavingsValue.text = "R$savingsAmount"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        // Max spending slider listener
         maxSpendingSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val realValue = 1 + (progress * 50)
-                maxSpendingValue.text = "R$realValue"
+                val spendingAmount = progress * 100 // Scale up spending (0-100 becomes 0-10,000)
+                maxSpendingValue.text = "R$spendingAmount"
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
@@ -58,32 +86,7 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
         updateButton.setOnClickListener {
             updateUserProfile()
         }
-
-        val salarySlider = view.findViewById<SeekBar>(R.id.salarySlider)
-        val salaryValue = view.findViewById<TextView>(R.id.salaryValue)
-
-        salarySlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                salaryValue.text = "R$progress"
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        val minSavingsSlider = view.findViewById<SeekBar>(R.id.minSavingsSlider)
-        val minSavingsValue = view.findViewById<TextView>(R.id.minSavingsValue)
-
-        minSavingsSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                minSavingsValue.text = "R$progress"
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
     }
-
-
 
     private fun setupSpinner() {
         val options = arrayOf("Weekly", "Bi-weekly", "Monthly")
@@ -103,12 +106,18 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
                         val chinchillaResId = resources.getIdentifier(
                             chinchilla, "drawable", requireContext().packageName
                         )
-                        val profileImageView: ImageView = requireView().findViewById(R.id.profileImage)
-                        profileImageView.setImageResource(chinchillaResId)
+                        if (chinchillaResId != 0) {
+                            profileImageView.setImageResource(chinchillaResId)
+                        } else {
+                            profileImageView.setImageResource(R.drawable.ic_profile)
+                        }
+                    } else {
+                        profileImageView.setImageResource(R.drawable.ic_profile)
                     }
                 }
                 .addOnFailureListener { exception ->
                     Log.e("EditProfileFragment", "Failed to load chinchilla avatar: ", exception)
+                    profileImageView.setImageResource(R.drawable.ic_profile)
                 }
         }
     }
@@ -116,52 +125,127 @@ class EditProfileFragment : Fragment() { // (Code With Cal, 2025)
     private fun loadUserData() {
         val userId = auth.currentUser?.uid ?: return
 
-        // Load basic user data
-        db.collection("users").document(userId).get().addOnSuccessListener { doc ->
-            nameEditText.setText(doc.getString("name") ?: "")
-            emailEditText.setText(doc.getString("email") ?: "")
-        }
+        // Load basic user data from the subcollection where it's actually stored
+        db.collection("users")
+            .document(userId)
+            .collection("userProfiles")
+            .document("profile")
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc != null && doc.exists()) {
+                    // Get name and surname separately
+                    val name = doc.getString("name") ?: ""
+                    val surname = doc.getString("surname") ?: ""
+                    val fullName = "$name $surname".trim()
 
-        // Load user settings
-        db.collection("user_settings").document(userId).get().addOnSuccessListener { doc ->
-            val payday = doc.getString("payday") ?: "Monthly"
-            val maxGoal = doc.getDouble("maxGoal") ?: 0.0
-            maxSpendingSlider.progress = maxGoal.toInt()
-            maxSpendingValue.text = "R${maxGoal.toInt()}"
+                    // Populate the name field
+                    nameEditText.setText(fullName)
+                    Log.d("EditProfileFragment", "Loaded name: $fullName")
 
-            val index = (paydaySpinner.adapter as ArrayAdapter<String>).getPosition(payday)
-            paydaySpinner.setSelection(index)
-        }
+                    // Populate email field
+                    val email = doc.getString("email") ?: ""
+                    emailEditText.setText(email)
+                    Log.d("EditProfileFragment", "Loaded email: $email")
+                } else {
+                    Log.w("EditProfileFragment", "User profile document does not exist")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("EditProfileFragment", "Failed to load user data: ", exception)
+            }
+
+        // Load user settings from "userSettings" collection (matching your SettingsFragment)
+        db.collection("userSettings").document(userId).get()
+            .addOnSuccessListener { doc ->
+                if (doc != null && doc.exists()) {
+                    // Populate payday spinner
+                    val payday = doc.getString("payday") ?: "Monthly"
+                    val spinnerAdapter = paydaySpinner.adapter as ArrayAdapter<String>
+                    val index = spinnerAdapter.getPosition(payday)
+                    if (index >= 0) {
+                        paydaySpinner.setSelection(index)
+                    }
+
+                    // Populate salary slider and value
+                    val salary = doc.getDouble("salary") ?: 0.0
+                    val salaryProgress = (salary / 100).toInt() // Scale down for slider
+                    salarySlider.progress = salaryProgress
+                    salaryValue.text = "R${salary.toInt()}"
+
+                    // Populate min savings slider and value
+                    val minGoal = doc.getDouble("minGoal") ?: 0.0
+                    val minProgress = (minGoal / 10).toInt() // Scale down for slider
+                    minSavingsSlider.progress = minProgress
+                    minSavingsValue.text = "R${minGoal.toInt()}"
+
+                    // Populate max spending slider and value
+                    val maxGoal = doc.getDouble("maxGoal") ?: 0.0
+                    val maxProgress = (maxGoal / 10).toInt() // Scale down for slider
+                    maxSpendingSlider.progress = maxProgress
+                    maxSpendingValue.text = "R${maxGoal.toInt()}"
+                } else {
+                    Log.w("EditProfileFragment", "User settings document does not exist")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("EditProfileFragment", "Failed to load user settings: ", exception)
+            }
     }
 
     private fun updateUserProfile() {
         val userId = auth.currentUser?.uid ?: return
 
-        val name = nameEditText.text.toString().trim()
+        val fullName = nameEditText.text.toString().trim()
         val email = emailEditText.text.toString().trim()
         val payday = paydaySpinner.selectedItem.toString()
-        val maxGoal = maxSpendingSlider.progress.toDouble()
 
-        // Update user info in "users" collection
+        // Calculate actual values from slider positions
+        val salary = (salarySlider.progress * 1000).toDouble()
+        val minGoal = (minSavingsSlider.progress * 100).toDouble()
+        val maxGoal = (maxSpendingSlider.progress * 100).toDouble()
+
+        // Split the full name into name and surname
+        val nameParts = fullName.split(" ", limit = 2)
+        val firstName = nameParts.getOrNull(0) ?: ""
+        val lastName = nameParts.getOrNull(1) ?: ""
+
+        // Update user info in the subcollection where it's actually stored
         val userMap = mapOf(
-            "name" to name,
+            "name" to firstName,
+            "surname" to lastName,
             "email" to email
         )
-        db.collection("users").document(userId).update(userMap).addOnSuccessListener {
-            Toast.makeText(requireContext(), "User info updated", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { e ->
-            Toast.makeText(requireContext(), "Failed to update user info: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
 
-        // Update user settings in "user_settings" collection
+        db.collection("users")
+            .document(userId)
+            .collection("userProfiles")
+            .document("profile")
+            .set(userMap)
+            .addOnSuccessListener {
+                Log.d("EditProfileFragment", "User info updated successfully")
+                Toast.makeText(requireContext(), "User info updated", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.e("EditProfileFragment", "Failed to update user info: ", e)
+                Toast.makeText(requireContext(), "Failed to update user info: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+
+        // Update user settings in "userSettings" collection
         val settingsMap = mapOf(
             "payday" to payday,
+            "salary" to salary,
+            "minGoal" to minGoal,
             "maxGoal" to maxGoal
         )
-        db.collection("user_settings").document(userId).update(settingsMap).addOnSuccessListener {
-            Toast.makeText(requireContext(), "Settings updated", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { e ->
-            Toast.makeText(requireContext(), "Failed to update settings: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
+
+        db.collection("userSettings").document(userId).set(settingsMap)
+            .addOnSuccessListener {
+                Log.d("EditProfileFragment", "Settings updated successfully")
+                Toast.makeText(requireContext(), "Settings updated", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.e("EditProfileFragment", "Failed to update settings: ", e)
+                Toast.makeText(requireContext(), "Failed to update settings: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
-} // (Code With Cal, 2025)
+}

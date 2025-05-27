@@ -17,7 +17,7 @@ import com.iie.st10320489.marene.R
 
 class QrFragment : Fragment() { // (Code With Cal, 2025)
 
-    override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment from the activity_qr XML layout
         val rootView: View = inflater.inflate(R.layout.activity_qr, container, false)
 

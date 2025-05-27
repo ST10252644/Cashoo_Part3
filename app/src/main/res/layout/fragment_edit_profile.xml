@@ -201,20 +201,7 @@
             android:progressDrawable="@drawable/slider_progress"
             android:thumb="@drawable/ic_handle" />
 
-        <TextView
-            android:id="@+id/learnSavings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="@font/inter_semibold"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="Learn More"
-            android:textColor="@color/tertiary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -255,20 +242,7 @@
             android:progressDrawable="@drawable/slider_progress"
             android:thumb="@drawable/ic_handle" />
 
-        <TextView
-            android:id="@+id/learnSpending"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="@font/inter_semibold"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="Learn More"
-            android:textColor="@color/tertiary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+
 
         <Button
             android:id="@+id/updateButton"

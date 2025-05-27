@@ -59,7 +59,7 @@ class TransactionDetailsFragment : Fragment() {
                     binding.txtDescription.text = t.description.ifBlank { "N/A" }
 
                     // Fetch category name from Firestore using categoryId
-                    val categoryId = t.categoryId ?: "Other"
+                    val categoryId = t.categoryId
                     firestore.collection("users")
                         .document(userId)
                         .collection("categories")

@@ -1,10 +1,10 @@
 package com.iie.st10320489.marene.data.entities
 
 data class Category(
-    val categoryId: String = "",
-    val name: String = "",
+    var categoryId: String = "",
+    var name: String = "",
     val icon: Int = 0,
-    val colour: Int = 0,
+    var colour: Int = 0,
     val userId: String = ""
 )
 

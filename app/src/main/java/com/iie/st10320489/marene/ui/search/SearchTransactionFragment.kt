@@ -39,11 +39,6 @@ class SearchTransactionFragment : Fragment() {
 
     private var selectedDate: String = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // Removed userId argument fetching because we'll get userId directly from FirebaseAuth
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

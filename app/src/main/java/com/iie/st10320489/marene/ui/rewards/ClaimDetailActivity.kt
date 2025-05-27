@@ -20,7 +20,7 @@ class ClaimDetailActivity : Fragment() { // (Code With Cal, 2025)
     private lateinit var confirmButton: Button
     private lateinit var cancelButton: Button
 
-    override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         val rootView: View = inflater.inflate(R.layout.activity_claim_detail, container, false)
 
