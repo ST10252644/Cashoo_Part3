@@ -51,9 +51,10 @@ class EditProfileFragment : Fragment() {
 
         setupSpinner()
         loadUserChinchillaAvatar()
-        loadUserData() // This will now populate all fields with existing data
+        loadUserData() // populate all fields with existing data
 
         // Salary slider listener
+        //(Abhi 2022)
         salarySlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val salaryAmount = progress * 1000 // Scale up the salary (0-100 becomes 0-100,000)
@@ -64,6 +65,7 @@ class EditProfileFragment : Fragment() {
         })
 
         // Min savings slider listener
+        //(Abhi 2022)
         minSavingsSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val savingsAmount = progress * 100 // Scale up savings (0-100 becomes 0-10,000)
@@ -74,6 +76,7 @@ class EditProfileFragment : Fragment() {
         })
 
         // Max spending slider listener
+        //(Abhi 2022)
         maxSpendingSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val spendingAmount = progress * 100 // Scale up spending (0-100 becomes 0-10,000)
@@ -95,12 +98,15 @@ class EditProfileFragment : Fragment() {
         paydaySpinner.adapter = adapter
     }
 
+    //(Firebase, 2025)
+    //show the chinchilla avatar of the user
     private fun loadUserChinchillaAvatar() {
         val userId = auth.currentUser?.uid
 
         userId?.let { uid ->
             db.collection("userSettings").document(uid).get()
                 .addOnSuccessListener { document ->
+                    //default chinchilla if one can not be found
                     if (document != null && document.exists()) {
                         val chinchilla = document.getString("chinchilla") ?: "default_chinchilla"
                         val chinchillaResId = resources.getIdentifier(
@@ -122,10 +128,12 @@ class EditProfileFragment : Fragment() {
         }
     }
 
+    //load the users data and pre-enter it into the editboxes
+    //(Firebase, 2025)
     private fun loadUserData() {
         val userId = auth.currentUser?.uid ?: return
 
-        // Load basic user data from the subcollection where it's actually stored
+        // Load basic user data from the subcollection
         db.collection("users")
             .document(userId)
             .collection("userProfiles")
@@ -154,7 +162,8 @@ class EditProfileFragment : Fragment() {
                 Log.e("EditProfileFragment", "Failed to load user data: ", exception)
             }
 
-        // Load user settings from "userSettings" collection (matching your SettingsFragment)
+        // Load user settings from "userSettings" collection
+        //(Firebase, 2025)
         db.collection("userSettings").document(userId).get()
             .addOnSuccessListener { doc ->
                 if (doc != null && doc.exists()) {
@@ -192,6 +201,7 @@ class EditProfileFragment : Fragment() {
             }
     }
 
+    //(Firebase, 2025)
     private fun updateUserProfile() {
         val userId = auth.currentUser?.uid ?: return
 
@@ -238,6 +248,7 @@ class EditProfileFragment : Fragment() {
             "maxGoal" to maxGoal
         )
 
+        //(Dawid, 2019)
         db.collection("userSettings").document(userId).set(settingsMap)
             .addOnSuccessListener {
                 Log.d("EditProfileFragment", "Settings updated successfully")
@@ -249,3 +260,7 @@ class EditProfileFragment : Fragment() {
             }
     }
 }
+
+/*Reference listAbhi 2022, SeekBar Tutorial With Example In Android Studio | Abhi Android, Abhiandroid.com, viewed 28 May 2025, <https://abhiandroid.com/ui/seekbar#gsc.tab=0>.
+Dawid, L 2019, Stack Overflow, Stack Overflow, viewed 17 May 2025, <https://stackoverflow.com/questions/54187951/my-onsucsess-and-onfailure-listener-isnt-working>.Get data with Cloud Firestore  | 
+Firebase 2025, Firebase, viewed 28 May 2025, <https://firebase.google.com/docs/firestore/query-data/get-data>.*/

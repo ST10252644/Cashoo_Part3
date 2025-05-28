@@ -15,7 +15,7 @@ data class User(
     // Stores the user's password
     val password: String = "",
 
-    // Stores the user's cash balance (modifiable)
+    // Stores the user's cash balance
     var cashoos: Double = 0.0,
 
     // Indicates whether the user account is active

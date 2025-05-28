@@ -64,6 +64,7 @@ class SettingsFragment : Fragment() {
     }
 
     // Load user data and chinchilla avatar from Firebase
+    //(Dawid 2019)
     private fun loadUserData() {
         val auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
@@ -126,6 +127,8 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    //(Dawid 2019)
+    //Show the users avatar
     private fun loadUserChinchillaAvatar(uid: String) {
         val db = FirebaseFirestore.getInstance()
 
@@ -168,6 +171,7 @@ class SettingsFragment : Fragment() {
     }
 
     // Clears the user's session and navigates back to the login screen
+    //(Firebase, 2025)
     private fun performLogout() {
         // Sign out from Firebase Auth
         FirebaseAuth.getInstance().signOut()
@@ -185,3 +189,7 @@ class SettingsFragment : Fragment() {
         requireActivity().finish()
     }
 }
+
+/*Reference listDawid, L 2019, Stack Overflow, Stack Overflow, viewed 17 May 2025, <https://stackoverflow.com/questions/54187951/my-onsucsess-and-onfailure-listener-isnt-working>.Manage User Sessions  | 
+Firebase Authentication 2025, Firebase, viewed 28 May 2025, <https://firebase.google.com/docs/auth/admin/manage-sessions>.*.
+ */
