@@ -55,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
         final boolean[] isConfirmPasswordVisible = {false};
 
         // Toggle visibility of "Create Password"
+        //(Android Developers, 2025)
         toggleCreatePassword.setOnClickListener(v -> {
             if (isCreatePasswordVisible[0]) {
                 passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -68,6 +69,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Toggle visibility of "Confirm Password"
+        //(Android Developers, 2025)
         toggleConfirmPassword.setOnClickListener(v -> {
             if (isConfirmPasswordVisible[0]) {
                 confirmPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -148,4 +150,6 @@ public class SignupActivity extends AppCompatActivity {
         signInText.setOnClickListener(v -> startActivity(new Intent(SignupActivity.this, LoginActivity.class)));
     }
 }
+
+//Reference listShow or hide password based on a user toggle 2025, Android Developers, viewed 28 May 2025, <https://developer.android.com/develop/ui/compose/quick-guides/content/show-hide-password>.
 

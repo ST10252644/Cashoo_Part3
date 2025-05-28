@@ -76,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         isPasswordVisible = !isPasswordVisible;
     }
 
+
+    //(Flutter.dev, 2025)
     private void loginUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -108,3 +110,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 }
+
+//Reference listUsing Firebase Authentication | FlutterFire 2025, Flutter.dev, viewed 28 May 2025, <https://firebase.flutter.dev/docs/auth/usage/>.
