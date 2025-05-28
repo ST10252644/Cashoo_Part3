@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="0dp"
         android:gravity="center_horizontal">
@@ -22,18 +22,18 @@
             android:scaleType="centerCrop"
             android:contentDescription="Claim Image" />
 
-      <TextView
-          android:id="@+id/ClaimRewardTitle"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Kanye Saint"
-          android:gravity="center"
-          android:layout_marginTop="5dp"
-          android:fontFamily="@font/inter_bold"
-          android:paddingBottom="5.3dp"
-          android:textColor="@color/text_heading"
-          android:textSize="16sp"
-          android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/ClaimRewardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kanye Saint"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/inter_bold"
+            android:paddingBottom="5.3dp"
+            android:textColor="@color/text_heading"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/ClaimRewardPoints"
@@ -60,11 +60,26 @@
             android:letterSpacing="0.01"
             android:textColor="@color/text" />
 
+        <!-- New Location TextView -->
+        <TextView
+            android:id="@+id/ClaimLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available at: Main Campus Café"
+            android:textSize="14sp"
+            android:textColor="@color/text_heading"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="center"/>
+
         <Button
             android:id="@+id/ClaimButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/rounded_button"
             android:fontFamily="@font/inter_semibold"
             android:text="Claim Reward"
@@ -73,8 +88,6 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16dp"/>
-
-
 
     </LinearLayout>
 

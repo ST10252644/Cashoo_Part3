@@ -9,6 +9,7 @@
     android:id="@+id/helpMain"
     android:background="@android:color/white">
 
+    <!--  (AndroidDevelopers, 2023)-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,6 +100,7 @@
             <!-- Individual Category Blocks Below... -->
         </LinearLayout>
 
+        <!--  (AndroidDevelopers, 2023)-->
         <!-- Back button to return to previous screen -->
         <Button
             android:id="@+id/helpBack"
@@ -112,7 +114,6 @@
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
-
     <!-- //(Cal, 2023), (College, 2025),-->
 
 

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="6dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="2dp"
+    android:backgroundTint="@color/black">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:padding="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/black">
+
+        <ImageView
+            android:id="@+id/historyImage"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            android:padding="8dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/historyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Free small smoothie or hot drink"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/historyLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Free wrap from Kauai"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/historyDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Claimed: 24/05/2025"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+
+
+        <!-- Right-side status layout -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical|end">
+
+            <TextView
+                android:id="@+id/historyStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Redeemed"
+                android:background="@drawable/box"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_gravity="end"
+                android:fontFamily="@font/inter_bold" />
+
+            <TextView
+                android:id="@+id/historyCountdown"
+                android:layout_width="90dp"
+                android:layout_height="20dp"
+                android:text="   Expires in 00:59"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bronze"
+                android:textSize="10sp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="2dp"
+                android:fontFamily="@font/inter_bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

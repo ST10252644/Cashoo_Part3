@@ -84,28 +84,11 @@ class CategoryFragment : Fragment() {
         _binding = null
     }
 }
-//((Cal, 2023), (College, 2025)
+//(Firebase, 2023),(Technology, 2020),(GeeksforGeeks, 2024)
 
 //Bibliography
-//AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
-//AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
-//Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
-//[Accessed 26 April 2025].
-//Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
-//Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
-//[Accessed 27 April 2025].
-//Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
-//Available at: hRps://developer.android.com/develop#core-areas
-//[Accessed 28 April 2025].
-//Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
-//[Accessed 27 April 2025].
-//College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
-//Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
-//Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
-//[Accessed 28 April 2025].
 
-//androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
-//AndroidDevelopers, 2023. Layouts in Views. [Online]
+//College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
 //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
 //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
 //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
@@ -118,3 +101,8 @@ class CategoryFragment : Fragment() {
 //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
 //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
 //[Accessed 23 April 2025].
+//Firebase, 2023. Ge=ng Started with Firebase on Android. [Online] Available at: hLps://youtu.be/jbHfJpoOzkl?si=rQ0hPeu_qKWpuAlm [Accessed 27 May 2025].
+//Technology, S., 2020. 017 How to create MP Android Chart from Firebase RealKme Database. [Online]
+//Available at: hLps://youtu.be/C0O9u0jd6nQ?si=c-H-xO4ISG2DWqQx [Accessed 22 May 2025].
+//GeeksforGeeks, 2024. How to Create and Add Data to Firebase Firestore in Android. [Online] Available at: hLps://www.geeksforgeeks.org/create-and-add-data-to-firebase-firestore-in- android/
+//[Accessed 23 May 2025].

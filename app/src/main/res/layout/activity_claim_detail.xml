@@ -1,111 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainClaim"
-    tools:context="com.example.apprewards.ClaimDetailActivity">
-    <!--  (AndroidDevelopers, 2023), (Kay, 2022), (Coder, 2022), (Coder, 2024)-->
-    <!-- Container -->
+    android:background="#329574"
+    android:id="@+id/navigation_rewards_claimdetail">
+
     <LinearLayout
+        android:id="@+id/mainClaim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
         android:orientation="vertical"
         android:padding="24dp"
-        android:elevation="4dp"
         android:gravity="center_horizontal">
 
-    <LinearLayout
-        android:layout_width="410dp"
-        android:layout_height="250dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="8dp"
-        android:background="@color/primary" >
+        <!-- Image (e.g., Smoothie) -->
+        <ImageView
+            android:id="@+id/imageClaimDetail"
+            android:layout_width="220dp"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/kanye" />
 
+        <!-- QR Code -->
+        <ImageView
+            android:id="@+id/qrCodeImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/qr" />
 
-    <!-- Image at the top -->
-    <ImageView
-        android:id="@+id/imageClaimDetail"
-        android:layout_width="310dp"
-        android:layout_height="220dp"
-        android:padding="10dp"
-        android:layout_gravity="center"
-        android:scaleType="centerInside" />
+        <!-- Code below QR -->
+        <TextView
+            android:id="@+id/voucherCodeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="53466663991"
+            android:textSize="18sp"
+            android:textColor="@color/secondary"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold" />
 
-    </LinearLayout>
+        <!-- Expiry Timer -->
+        <TextView
+            android:id="@+id/countdownTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expires In 13:16:18"
+            android:textColor="@color/white"
+            android:layout_marginTop="12dp"
+            android:textSize="14sp"
+            android:background="@drawable/box"
+            android:padding="6dp"
+            android:fontFamily="@font/inter_extrabold" />
 
-        <!-- Buttons at the bottom -->
+        <!-- Reward Title -->
+        <TextView
+            android:id="@+id/rewardTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weekly Reward\n- Kauai"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/inter_extrabold" />
+
+        <!-- Reward Description -->
+        <TextView
+            android:id="@+id/rewardDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_regular"
+            android:text="This voucher is valid for one small (350ml) regular smoothie or short (250ml) hot drink from Kauai. This offer is valid for 7 days only and is limited to one transaction per customer. This offer excludes all Kauai Protein and Superfood smoothies and Kauai Iced drinks. To redeem this voucher, simply open the voucher in the “Rewards” section in the app under “Active”, open the voucher and scan the QR code or read the wiCode beneath the QR code to the cashier, prior to making payment. If unredeemed, it will expire..." />
+
+        <!-- T&Cs Link -->
+        <TextView
+            android:id="@+id/viewTnCTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View T and Cs"
+            android:textColor="@color/nav_icon_color"
+            android:textStyle="italic"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/inter_bold" />
+
+        <!-- Confirm and Cancel Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginTop="24dp"
             android:gravity="center"
-            android:background="@color/primary"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Are you certain?"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/inter_extrabold"
-                android:textColor="@color/secondary"
-                android:textSize="32sp"
-                android:textStyle="bold"/>
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/red"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/inter_bold" />
 
-            <!-- Description -->
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Are you sure you want to proceed with this reward selection?"
-                android:textColor="@color/secondary"
-                android:textStyle="italic"
-                android:gravity="center"
-                android:layout_marginBottom="30dp"
-                android:fontFamily="@font/inter_regular"
-                android:textSize="18sp"/>
-
-
-            <!-- Confirm Button -->
-    <Button
-        android:id="@+id/btnConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:backgroundTint="@color/secondary"
-        android:textColor="@color/text_heading"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/inter_semibold"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:textAllCaps="false"
-        android:textSize="16dp" />
-            <!--  (AndroidDevelopers, 2023), (Kay, 2022), (Coder, 2022), (Coder, 2024)-->
-            <!-- Cancel Button -->
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Close"
-        android:backgroundTint="#ef4444"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/inter_semibold"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:textAllCaps="false"
-        android:textSize="16dp" />
+                android:layout_weight="1"
+                android:text="Confirm"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#43A047"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/inter_bold" />
 
         </LinearLayout>
-</LinearLayout>
-</LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
     <!-- //(Cal, 2023), (College, 2025),-->
 
 

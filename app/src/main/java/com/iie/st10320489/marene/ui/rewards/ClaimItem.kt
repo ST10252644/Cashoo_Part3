@@ -4,7 +4,8 @@ data class ClaimItem(
 
     val clmTitle: String,
     val clmPoints: String,
-    val clmImageResId: Int
+    val clmImageResId: Int,
+    val location: String
 ) // (Code With Cal, 2025)
 
 //Reference List:
