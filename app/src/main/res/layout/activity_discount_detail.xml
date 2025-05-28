@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/discMain"
+    android:orientation="vertical">
+
+    <!--  (AndroidDevelopers, 2023)-->
+   <!-- Container for image and confirmation content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#d3eae4"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:elevation="4dp"
+        android:gravity="center_horizontal">
+
+        <!-- Top section with discount image -->
+        <LinearLayout
+            android:layout_width="410dp"
+            android:layout_height="250dp"
+            android:gravity="center"
+            android:background="#a4d0c5" >
+
+            <!-- Display the discount image at the top -->
+            <ImageView
+                android:id="@+id/detailImg"
+                android:layout_width="310dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:scaleType="centerInside" />
+
+        </LinearLayout>
+
+        <!-- Buttons and confirmation text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#d3eae4"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Are you certain?"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Description asking user for confirmation -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Are you sure you want to proceed with this discount selection?"
+                android:textColor="#4c4c4c"
+                android:textSize="19sp"
+                android:gravity="center"
+                android:textStyle="italic"
+                android:layout_marginBottom="30dp" />
+
+            <!-- Confirm button with green color -->
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="#10b981"
+                android:textColor="@color/white"
+                android:text="Confirm" />
+
+            <!--  (AndroidDevelopers, 2023), (Kay, 2022), (Coder, 2022), (Coder, 2024)-->
+            <!-- Cancel button with red color -->
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:backgroundTint="#ef4444"
+                android:textColor="@color/white"
+                android:text="Cancel" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+    <!-- //(Cal, 2023), (College, 2025),-->
+
+
+    <!--//Bibliography
+       //AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
+       //AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
+       //Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
+       //[Accessed 26 April 2025].
+       //Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
+       //[Accessed 27 April 2025].
+       //Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://developer.android.com/develop#core-areas
+       //[Accessed 28 April 2025].
+       //Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
+       //[Accessed 27 April 2025].
+       //College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+       //Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
+       //Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
+       //[Accessed 28 April 2025].
+
+       //androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
+       //AndroidDevelopers, 2023. Layouts in Views. [Online]
+       //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+       //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+       //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+       //[Accessed 15 April 2025].
+       //Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+       //Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+       //[Accessed 22 April 2025].
+       //Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+       //[Accessed 24 April 2025].
+       //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+       //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+       //[Accessed 23 April 2025]. -->
