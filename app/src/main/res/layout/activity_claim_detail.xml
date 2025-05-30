@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#329574"
+    android:id="@+id/navigation_rewards_claimdetail">
+
+    <LinearLayout
+        android:id="@+id/mainClaim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+
+        <ImageView
+            android:id="@+id/imageClaimDetail"
+            android:layout_width="320dp"
+            android:layout_height="260dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/kanye" />
+
+        <!-- QR Code -->
+        <ImageView
+            android:id="@+id/qrCodeImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/qr" />
+
+        <!-- Code below QR -->
+        <TextView
+            android:id="@+id/voucherCodeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="53466663991"
+            android:textSize="18sp"
+            android:textColor="@color/secondary"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold" />
+
+
+
+        <!-- Reward Title -->
+        <TextView
+            android:id="@+id/rewardTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weekly Reward\n- Kauai"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/inter_extrabold" />
+
+        <!-- Reward Description -->
+        <TextView
+            android:id="@+id/rewardDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_regular"
+            android:text="This voucher is valid for one small (350ml) regular smoothie or short (250ml) hot drink from Kauai. This offer is valid for 7 days only and is limited to one transaction per customer. This offer excludes all Kauai Protein and Superfood smoothies and Kauai Iced drinks. To redeem this voucher, simply open the voucher in the “Rewards” section in the app under “Active”, open the voucher and scan the QR code or read the wiCode beneath the QR code to the cashier, prior to making payment. If unredeemed, it will expire..." />
+
+        <!-- T&Cs Link -->
+        <TextView
+            android:id="@+id/viewTnCTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View T and Cs"
+            android:textColor="@color/nav_icon_color"
+            android:textStyle="italic"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/inter_bold" />
+
+        <!-- Confirm and Cancel Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/red"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/inter_bold" />
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Confirm"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#43A047"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/inter_bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+    <!-- //(Cal, 2023), (College, 2025),-->
+
+
+    <!--//Bibliography
+       //AndroidDevelopers, 2024. Save data in a local database using Room. [Online] Available at: hRps://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
+       //AndroidDevelopers, 2024. Write asynchronous DAO queries. [Online]
+       //Available at: hRps://developer.android.com/training/data-storage/room/async- queries?authuser=2
+       //[Accessed 26 April 2025].
+       //Raikwar, A., 2024. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://amitraikwar.medium.com/ge[ng-started-with-room-database-in- android-fa1ca23ce21e
+       //[Accessed 27 April 2025].
+       //Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
+       //Available at: hRps://developer.android.com/develop#core-areas
+       //[Accessed 28 April 2025].
+       //Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
+       //[Accessed 27 April 2025].
+       //College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+       //Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
+       //Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
+       //[Accessed 28 April 2025].
+
+       //androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
+       //AndroidDevelopers, 2023. Layouts in Views. [Online]
+       //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+       //Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+       //Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+       //[Accessed 15 April 2025].
+       //Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+       //Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+       //[Accessed 22 April 2025].
+       //Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+       //[Accessed 24 April 2025].
+       //Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+       //Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+       //[Accessed 23 April 2025]. -->
