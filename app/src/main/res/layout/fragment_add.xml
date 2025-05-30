@@ -12,36 +12,6 @@
         android:orientation="vertical">
 
         <!-- Header -->
-        <LinearLayout
-            android:id="@+id/ll_header"
-            android:layout_width="392dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="60dp"
-            android:weightSum="2">
-
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="50dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_back"
-                android:contentDescription="Back" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:paddingRight="60dp"
-                android:text="Add Entry"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary"/>
-        </LinearLayout>
 
         <!-- Card Container -->
         <androidx.cardview.widget.CardView

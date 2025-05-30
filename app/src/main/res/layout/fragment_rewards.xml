@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -37,13 +36,13 @@
 
 
 
-<!--            <ImageView
-                android:id="@+id/helpButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="150dp"
-                android:background="@drawable/help"
-                android:gravity="left"/>-->
+            <!--            <ImageView
+                            android:id="@+id/helpButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="150dp"
+                            android:background="@drawable/help"
+                            android:gravity="left"/>-->
 
             <TextView
                 android:id="@+id/txtYouHave2"
@@ -197,7 +196,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rewards Preview"
+            android:text="Cashoo Rewards"
             android:textColor="@color/text_heading"
             android:fontFamily="@font/inter_bold"
             android:textSize="16sp"
@@ -307,8 +306,9 @@
         <TextView
             android:id="@+id/discPage"
             android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
             android:padding="8dp"
-            android:text="Go to Discount Page"
+            android:text="Go to History Page"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

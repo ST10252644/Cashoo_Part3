@@ -25,7 +25,6 @@ class AnalysisViewModel : ViewModel() {
 //Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
 //Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
 //[Accessed 28 April 2025].
-
 //androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
 //AndroidDevelopers, 2023. Layouts in Views. [Online]
 //Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].

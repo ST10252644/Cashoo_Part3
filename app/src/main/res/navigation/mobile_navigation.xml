@@ -28,6 +28,7 @@
         <action
             android:id="@+id/action_settingFragment_to_edit_profile_Fragment"
             app:destination="@id/editProfileFragment" />
+
     </fragment>
 
     <fragment
@@ -110,6 +111,9 @@
             android:name="userId"
             app:argType="string"
             android:defaultValue="" />
+        <action
+            android:id="@+id/action_searchTransactionFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment" />
     </fragment>
 
     <!-- //(Cal, 2023), (College, 2025),-->
@@ -141,9 +145,14 @@
         tools:layout="@layout/fragment_rewardstwo" />-->
 
     <fragment
-        android:id="@+id/navigation_rewards_discount"
-        android:name="com.iie.st10320489.marene.ui.rewards.DiscountActivity"
-        tools:layout="@layout/activity_discount" />
+        android:id="@+id/navigation_rewards_history"
+        android:name="com.iie.st10320489.marene.ui.rewards.RewardHistoryFragment"
+        tools:layout="@layout/reward_history" />
+
+    <fragment
+        android:id="@+id/navigation_rewards_expired"
+        android:name="com.iie.st10320489.marene.ui.rewards.RewardExpiredFragment"
+        tools:layout="@layout/reward_expired" />
 
 
     <fragment
@@ -161,33 +170,15 @@
             app:argType="integer" />
     </fragment>
 
-
-    <fragment
-        android:id="@+id/navigation_rewards_discountdetail"
-        android:name="com.iie.st10320489.marene.ui.rewards.DiscountDetailActivity"
-        tools:layout="@layout/activity_discount_detail">
-        <argument
-            android:name="discount_image"
-            app:argType="integer" />
-    </fragment>
-
     <!--<fragment
         android:id="@+id/navigation_rewards_claimed"
         android:name="com.iie.st10320489.marene.ui.rewards.FragmentClaimedRewards"
         tools:layout="@layout/fragment_claimed_rewards" />-->
 
-
     <fragment
         android:id="@+id/navigation_rewards_qr"
-        android:name="com.iie.st10320489.marene.ui.rewards.QrFragment"
-        tools:layout="@layout/activity_qr" />
-
-    <fragment
-        android:id="@+id/qrFragment"
-        android:name="com.iie.st10320489.marene.ui.rewards.QrFragment"
-        android:label="QR Code">
-        <!-- Add actions if needed -->
-    </fragment>
+        android:name="com.iie.st10320489.marene.ui.rewards.RewardsQrFragment"
+        tools:layout="@layout/rewards_qr" />
 
 
 </navigation>

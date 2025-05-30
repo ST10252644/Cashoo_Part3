@@ -42,7 +42,7 @@ class TransactionFragment : Fragment() {
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,13 +55,14 @@ class TransactionFragment : Fragment() {
         }
 
 
-
+        // (Android Developers, 2025)
         binding.recyclerViewTransactions.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewTransactions.adapter = adapter
 
         loadTransactions()
     }
 
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     private fun loadTransactions() {
         Log.d("TransactionFragment", "Loading transactions for userId: $userId")
 
@@ -69,6 +70,7 @@ class TransactionFragment : Fragment() {
         firestore.collection("users")
             .document(userId)
             .collection("transactions")
+            .orderBy("dateTime", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 Log.d("TransactionFragment", "Transaction query success. Documents found: ${result.size()}")
@@ -80,6 +82,7 @@ class TransactionFragment : Fragment() {
                     transaction
                 }
 
+                // (Android Developers, 2025)
                 val categoryIds = transactions.map { it.categoryId }.toSet()
                 Log.d("TransactionFragment", "Unique categoryIds: $categoryIds")
 
@@ -129,8 +132,8 @@ class TransactionFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed to load transactions: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
-
+    // (Android Developers, 2025)
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     private fun navigateToSearchTransaction() {
         Log.d("TransactionFragment", "Navigating to SearchTransactionFragment with userId=$userId")
         val bundle = Bundle().apply {

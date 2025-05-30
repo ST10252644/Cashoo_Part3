@@ -1,44 +1,27 @@
 package com.iie.st10320489.marene.ui.rewards
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.iie.st10320489.marene.R
+object RewardExpiredStore { // Defines a singleton object to act as a global store for expired rewards
 
-// Adapter class for a RecyclerView that displays a list of RewardItem objects
-class RewardsAdapter (private val rewardList: List<RewardItem>) :
-    RecyclerView.Adapter<RewardsAdapter.RewardViewHolder>() { // (Code With Cal, 2025)
+    val expiredRewards = mutableListOf<RewardHistoryItem>()  // A mutable list that holds RewardHistoryItem objects representing rewards that have expired
+} // (Viegen, 2022)
 
+//Reference List
 
-    // ViewHolder class that holds the views for each reward item in the RecyclerView
-    inner class RewardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageReward: ImageView = itemView.findViewById(R.id.ImageReward)
-        val textTitle: TextView = itemView.findViewById(R.id.textRewardTitle)
-        val textPoints: TextView = itemView.findViewById(R.id.textRewardPoints)
-    }
-    // Called when RecyclerView needs a new ViewHolder of the given type
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RewardViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_reward, parent, false)
-        return RewardViewHolder(view)
-    }
-
-    // Called by RecyclerView to display data at the specified position
-    override fun onBindViewHolder(holder: RewardViewHolder, position: Int) {
-        val reward = rewardList[position]
-        holder.imageReward.setImageResource(reward.imageResId)
-        holder.textTitle.text = reward.title
-        holder.textPoints.text = reward.points
-    }
-
-    override fun getItemCount(): Int = rewardList.size
-    // (Code With Cal, 2025)
-}
-
-//Reference List:
+//Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
+//Available at: hRps://developer.android.com/develop#core-areas
+//[Accessed 28 April 2025].
+//Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
+//[Accessed 27 April 2025].
+//College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+//Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
+//Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
+//[Accessed 28 April 2025].
+//androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
+//AndroidDevelopers, 2023. Layouts in Views. [Online]
+//Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+//Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+//Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+//[Accessed 15 April 2025].
 //Angga Risky. 2017. Rewards UI Design to Android XML Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=fjXMx_iLkTY [Accessed on 10 April 2025]
 //GeeksforGeeks. 2025. Android UI Layouts. [online]. Available at: https://www.geeksforgeeks.org/android-ui-layouts/ [Accessed on 10 April 2025]
 //Muhammadumarch. 2023. Implementing Navigation in Your Android App with Android Navigation Component. [online]. Available at: https://medium.com/@muhammadumarch321/implementing-navigation-in-your-android-app-with-android-navigation-component-ff22a3d300a [Accessed on 11 April 2025]

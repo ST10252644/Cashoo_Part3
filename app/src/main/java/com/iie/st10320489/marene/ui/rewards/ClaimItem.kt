@@ -2,9 +2,10 @@ package com.iie.st10320489.marene.ui.rewards
 
 data class ClaimItem(
 
-    val clmTitle: String,
-    val clmPoints: String,
-    val clmImageResId: Int
+    val clmTitle: String, // The title or name of the reward
+    val clmAmount: Int,   // The amount or points associated with the reward
+    val clmImageResId: Int,  // The resource ID of the image representing the reward
+    val location: String // The location where the reward can be claimed
 ) // (Code With Cal, 2025)
 
 //Reference List:

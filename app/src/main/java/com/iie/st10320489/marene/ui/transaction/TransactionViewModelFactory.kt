@@ -9,7 +9,7 @@ class TransactionViewModelFactory : ViewModelProvider.Factory {
             return TransactionViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
-    }
+    }// (Android Developers, 2025)
 }
 
 

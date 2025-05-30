@@ -100,6 +100,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bar_graph" />
 
+    <TextView
+        android:id="@+id/text_balance_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="10dp"
+        android:text="Balance Available: R 0.00"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_percentage_spent" />
+
     <!-- Icon (If Needed) -->
     <ImageView
         android:id="@+id/income_icon"

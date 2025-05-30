@@ -12,7 +12,7 @@ class TransactionViewModel : ViewModel() {
 
     private val _transactions = MutableLiveData<List<TransactionWithCategory>>()
     val transactions: LiveData<List<TransactionWithCategory>> = _transactions
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     fun loadTransactions(userId: String) {
         repository.getTransactionsByUserId(userId,
             onSuccess = { _transactions.value = it },

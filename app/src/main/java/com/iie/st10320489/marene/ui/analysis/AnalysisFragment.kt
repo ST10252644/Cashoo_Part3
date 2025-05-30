@@ -29,7 +29,7 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class AnalysisFragment : Fragment() {
+class AnalysisFragment : Fragment() {//(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
 
     private val TAG = "AnalysisFragment"
     private lateinit var pieChart: PieChart
@@ -43,11 +43,14 @@ class AnalysisFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Bind the views
         pieChart = view.findViewById(R.id.pieChart)
         barChart = view.findViewById(R.id.barChart)
         tabLayout = view.findViewById(R.id.tabLayout)
         firestore = FirebaseFirestore.getInstance()
 
+        // Load pie chart and tabs
         setupPieChart()
         setupTabs()
         addMonthlySummaryFragment()
@@ -58,9 +61,11 @@ class AnalysisFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
+                // Get all expense transactions
                 val txSnapshot = firestore.collection("users").document(uid).collection("transactions").get().await()
                 val transactions = txSnapshot.toObjects(Transaction::class.java).filter { it.expense }
 
+                // If no data, show default
                 if (transactions.isEmpty()) {
                     pieChart.clear()
                     pieChart.centerText = "Total Expense\nR 0.00"
@@ -73,6 +78,7 @@ class AnalysisFragment : Fragment() {
                 val totalExpenses = transactions.sumOf { it.amount }
                 val categoryMap = mutableMapOf<String, Double>()
 
+                // Aggregate amounts by category
                 for (tx in transactions) {
                     categoryMap[tx.categoryId] = categoryMap.getOrDefault(tx.categoryId, 0.0) + tx.amount
                 }
@@ -80,10 +86,32 @@ class AnalysisFragment : Fragment() {
                 val entries = mutableListOf<PieEntry>()
                 val colors = mutableListOf<Int>()
 
+                // Find layout to populate category breakdown
                 val detailsLayout = view?.findViewById<LinearLayout>(R.id.detailsLayout)
                 detailsLayout?.removeAllViews()
                 val inflater = LayoutInflater.from(requireContext())
 
+                // Add heading row for catagory, amount and percentage
+                val headingRow = inflater.inflate(R.layout.item_transaction_summary_row, detailsLayout, false)
+                headingRow.findViewById<TextView>(R.id.categoryText).apply {
+                    text = "Category"
+                    setTypeface(null, Typeface.BOLD)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.text_heading))
+                }
+                headingRow.findViewById<TextView>(R.id.amountText).apply {
+                    text = "Amount"
+                    setTypeface(null, Typeface.BOLD)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.text_heading))
+                }
+                headingRow.findViewById<TextView>(R.id.percentText).apply {
+                    text = "%"
+                    setTypeface(null, Typeface.BOLD)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.text_heading))
+                }
+                headingRow.findViewById<View>(R.id.colorDot).visibility = View.INVISIBLE
+                detailsLayout?.addView(headingRow)
+
+                // Add each category row to layout and pie chart
                 for ((catId, amount) in categoryMap) {
                     val categoryDoc = firestore.collection("users").document(uid).collection("categories").document(catId).get().await()
                     if (!categoryDoc.exists()) continue
@@ -100,7 +128,7 @@ class AnalysisFragment : Fragment() {
                     }
                     colors.add(colorInt)
 
-                    // Add row to UI
+                    // Add row to UI layout
                     val row = inflater.inflate(R.layout.item_transaction_summary_row, detailsLayout, false)
                     row.findViewById<TextView>(R.id.categoryText).text = category.name
                     row.findViewById<TextView>(R.id.amountText).text = "R%.2f".format(amount)
@@ -110,6 +138,7 @@ class AnalysisFragment : Fragment() {
                     detailsLayout?.addView(row)
                 }
 
+                // Create pie chart data set
                 val dataSet = PieDataSet(entries, "").apply {
                     this.colors = colors
                     valueTextSize = 12f
@@ -118,18 +147,20 @@ class AnalysisFragment : Fragment() {
                     selectionShift = 5f
                 }
 
+                // Format the value labels
                 val pieData = PieData(dataSet).apply {
                     setValueFormatter(object : ValueFormatter() {
                         override fun getFormattedValue(value: Float): String = "%.1f%%".format(value)
                     })
                 }
 
+                // Configure pie chart fully
                 pieChart.apply {
                     data = pieData
                     setUsePercentValues(true)
                     setEntryLabelColor(Color.BLACK)
                     setDrawEntryLabels(true)
-                    legend.isEnabled = true
+                    legend.isEnabled = false  // disable auto legend
                     legend.textColor = Color.DKGRAY
                     legend.textSize = 12f
                     legend.isWordWrapEnabled = true
@@ -150,12 +181,14 @@ class AnalysisFragment : Fragment() {
             }
         }
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     private fun setupTabs() {
+        // Add tabs for chart view options
         tabLayout.addTab(tabLayout.newTab().setText("Weekly"))
         tabLayout.addTab(tabLayout.newTab().setText("Monthly"), true)
         tabLayout.addTab(tabLayout.newTab().setText("Yearly"))
 
+        // Load default view
         setChartData("Monthly")
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -166,6 +199,7 @@ class AnalysisFragment : Fragment() {
     }
 
     private fun addMonthlySummaryFragment() {
+        // Attach the summary fragment
         childFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, MonthlySummaryFragment())
             .commit()
@@ -176,14 +210,17 @@ class AnalysisFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
+                // Fetch all transactions
                 val txSnapshot = firestore.collection("users").document(uid).collection("transactions").get().await()
                 val transactions = txSnapshot.toObjects(Transaction::class.java)
                 val now = LocalDate.now()
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
+                // Calculate income and expense totals
                 val incomeTotal = transactions.filter { !it.expense }.sumOf { it.amount }
                 val expenseTotal = transactions.filter { it.expense }.sumOf { it.amount }
 
+                // Update totals on screen
                 view?.findViewById<TextView>(R.id.incomeAmountTextView)?.text = "R %.2f".format(incomeTotal)
                 view?.findViewById<TextView>(R.id.expenseAmountTextView)?.text = "R %.2f".format(expenseTotal)
 
@@ -193,6 +230,7 @@ class AnalysisFragment : Fragment() {
 
                 val filteredTransactions = transactions.filter { it.dateTime.isNotBlank() }
 
+                // Weekly view
                 when (mode) {
                     "Weekly" -> {
                         val weekStart = now.with(java.time.DayOfWeek.MONDAY)
@@ -206,6 +244,7 @@ class AnalysisFragment : Fragment() {
                             labels.add(day.dayOfWeek.name.take(3))
                         }
                     }
+                    // Monthly view
                     "Monthly" -> {
                         val monthStart = now.withDayOfMonth(1)
                         val weeks = listOf(0, 7, 14, 21)
@@ -223,6 +262,7 @@ class AnalysisFragment : Fragment() {
                             labels.add("W${i + 1}")
                         }
                     }
+                    // Yearly view
                     "Yearly" -> {
                         for (i in 1..12) {
                             val filtered = filteredTransactions.filter {
@@ -238,6 +278,7 @@ class AnalysisFragment : Fragment() {
                     }
                 }
 
+                // Build bar chart data sets
                 val incomeSet = BarDataSet(incomeEntries, "Income").apply {
                     color = ContextCompat.getColor(requireContext(), R.color.income)
                 }
@@ -251,6 +292,7 @@ class AnalysisFragment : Fragment() {
                     groupBars(0f, 0.2f, 0f)
                 }
 
+                // Configure bar chart
                 barChart.apply {
                     data = barData
                     xAxis.apply {
@@ -269,7 +311,28 @@ class AnalysisFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Bar chart error: ${e.message}", e)
-            }
+            }//(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
         }
     }
 }
+
+//Bibliography
+
+//College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+//Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+//Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+//Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+//[Accessed 15 April 2025].
+//Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+//Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+//[Accessed 22 April 2025].
+//Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+//[Accessed 24 April 2025].
+//Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+//Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+//[Accessed 23 April 2025].
+//Firebase, 2023. Ge=ng Started with Firebase on Android. [Online] Available at: hLps://youtu.be/jbHfJpoOzkl?si=rQ0hPeu_qKWpuAlm [Accessed 27 May 2025].
+//Technology, S., 2020. 017 How to create MP Android Chart from Firebase RealKme Database. [Online]
+//Available at: hLps://youtu.be/C0O9u0jd6nQ?si=c-H-xO4ISG2DWqQx [Accessed 22 May 2025].
+//GeeksforGeeks, 2024. How to Create and Add Data to Firebase Firestore in Android. [Online] Available at: hLps://www.geeksforgeeks.org/create-and-add-data-to-firebase-firestore-in- android/
+//[Accessed 23 May 2025].

@@ -49,12 +49,12 @@ class AddFragment : Fragment() {
     private var selectedSubCategory: String = ""
     private var selectedDate = ""
     private var selectedTime = ""
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAddBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -157,7 +157,7 @@ class AddFragment : Fragment() {
 
         setupUIListeners()
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     private fun setupSpinner(spinner: Spinner, items: List<CategoryItem>) {
         Log.d("CategoryFragment", "Setting up spinner with ${items.size} items")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items.map { it.displayName })
@@ -192,7 +192,7 @@ class AddFragment : Fragment() {
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
         }
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
 
     private fun updateDateTimeField() {
         if (selectedDate.isNotEmpty() && selectedTime.isNotEmpty()) {
@@ -200,7 +200,7 @@ class AddFragment : Fragment() {
             binding.transDate.setText(dateTime)
         }
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     private fun uploadImageAndSaveTransaction() {
         val name = binding.transName.text.toString()
         val amount = binding.transAmount.text.toString().toDoubleOrNull() ?: 0.0
@@ -218,25 +218,30 @@ class AddFragment : Fragment() {
             return
         }
 
-        if (selectedImageUri != null) {
-            val fileName = UUID.randomUUID().toString()
-            val imageRef = storage.reference.child("receipts/$fileName.jpg")
 
-            imageRef.putFile(selectedImageUri!!)
-                .addOnSuccessListener {
-                    imageRef.downloadUrl.addOnSuccessListener { uri ->
-                        selectedImageUrl = uri.toString()
-                        saveTransaction(userId, name, amount, method, location, dateTime, description, selectedImageUrl, selectedCategory, isExpense)
-                    }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            saveTransaction(userId, name, amount, method, location, dateTime, description, "", selectedCategory, isExpense)
+        if (selectedDate.isEmpty() || selectedTime.isEmpty()) {
+            Toast.makeText(requireContext(), "Please select both a date and time", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        val fakeUploadPath = selectedImageUri?.toString() ?: ""
+
+        saveTransaction(
+            userId = userId,
+            name = name,
+            amount = amount,
+            method = method,
+            location = location,
+            date = dateTime,
+            description = description,
+            photoUrl = fakeUploadPath,
+            selectedCategoryId = selectedCategory,
+            isExpense = isExpense
+        )
     }
 
+    //((Cal, 2023), (College, 2025)
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     private fun saveTransaction(
         userId: String,
         name: String,
@@ -280,7 +285,7 @@ class AddFragment : Fragment() {
             }
     }
 
-
+    //((Cal, 2023), (College, 2025)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == AppCompatActivity.RESULT_OK && data != null) {
@@ -303,7 +308,7 @@ class AddFragment : Fragment() {
         }
         return fileName
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     private fun resetFields() {
         binding.transName.text.clear()
         binding.transAmount.text.clear()
@@ -317,9 +322,29 @@ class AddFragment : Fragment() {
         selectedImageUri = null
         selectedImageUrl = ""
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+//Bibliography
+
+//College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+//Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+//Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+//Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+//[Accessed 15 April 2025].
+//Team, G. D. T., 2024. Add repository and Manual DI. [Online]
+//Available at: hRps://developer.android.com/codelabs/basic-android-kotlin-compose-add- repository#0
+//[Accessed 22 April 2025].
+//Coder, O., 2022. Implament Pie Chart in Android Studio Using Kotlin. [Online] Available at: hRps://youtu.be/TUJHcU0FOkA?si=jk90LRSO1_eyMyIG
+//[Accessed 24 April 2025].
+//Coder, E. O., 2024. hot to create bar chart | MP Android Chart | Android Studio 2024. [Online]
+//Available at: hRps://youtu.be/WdsmQ3Zyn84?si=jz2AtkIRsNEUwNbX
+//[Accessed 23 April 2025].
+//Firebase, 2023. Ge=ng Started with Firebase on Android. [Online] Available at: hLps://youtu.be/jbHfJpoOzkl?si=rQ0hPeu_qKWpuAlm [Accessed 27 May 2025].
+//Technology, S., 2020. 017 How to create MP Android Chart from Firebase RealKme Database. [Online]
+//Available at: hLps://youtu.be/C0O9u0jd6nQ?si=c-H-xO4ISG2DWqQx [Accessed 22 May 2025].
+//GeeksforGeeks, 2024. How to Create and Add Data to Firebase Firestore in Android. [Online] Available at: hLps://www.geeksforgeeks.org/create-and-add-data-to-firebase-firestore-in- android/
+//[Accessed 23 May 2025].

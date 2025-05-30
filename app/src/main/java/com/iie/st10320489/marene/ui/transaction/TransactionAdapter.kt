@@ -74,6 +74,7 @@ class TransactionAdapter(
             }
         }
     } // (Android Developers, 2025)
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
 
     // Called when the RecyclerView needs a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -89,7 +90,7 @@ class TransactionAdapter(
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         holder.bind(transactions[position])
     }
-
+    //(Firebase, 2023; Technology, 2020; GeeksforGeeks, 2024)
     // Returns the number of items in the list
     override fun getItemCount(): Int = transactions.size
 

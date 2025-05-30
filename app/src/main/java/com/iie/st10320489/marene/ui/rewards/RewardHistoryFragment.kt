@@ -1,71 +1,63 @@
 package com.iie.st10320489.marene.ui.rewards
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iie.st10320489.marene.R
 
-// Adapter for displaying claimable rewards in a RecyclerView
-class ClaimsAdapter(private var items: List<ClaimItem>) : RecyclerView.Adapter<ClaimsAdapter.ViewHolder>() {
-    // (Viegen, 2022)
-    // ViewHolder class holds references to views for each item
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageClaim: ImageView = itemView.findViewById(R.id.ClaimImage)
-        val claimTitle: TextView = itemView.findViewById(R.id.ClaimRewardTitle)
-        val claimPoints: TextView = itemView.findViewById(R.id.ClaimRewardPoints)
-        val claimButton: Button = itemView.findViewById(R.id.ClaimButton) // (Viegen, 2022)
+// Declare RecyclerView and adapter for displaying claimed rewards
+class RewardHistoryFragment : Fragment() {
 
-        init {
-            // Handle click event on the claim button
-            claimButton.setOnClickListener {
-                val claim = items[adapterPosition] // Get the clicked item based on adapter position
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: RewardHistoryAdapter
 
-                // Create a bundle to pass reward data to the next fragment
-                val bundle = Bundle().apply {
-                    putInt("IMAGE_RES_ID", claim.clmImageResId)
-                    putString("TITLE", claim.clmTitle)
-                    putDouble("AMOUNT", claim.clmAmount.toDouble())
-                    putString("LOCATION", claim.location)
-                } // Adds all the item info
 
-                // Navigate to the Claim Detail screen with the bundle
-                itemView.findNavController().navigate(R.id.navigation_rewards_claimdetail, bundle)
-            }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle? // (Viegen, 2022)
+    ): View {
+        val view = inflater.inflate(R.layout.reward_history, container, false)
+        recyclerView = view.findViewById(R.id.historyRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)  // Initialize the RecyclerView and set its layout manager
+
+        adapter = RewardHistoryAdapter(RewardHistoryStore.claimedRewards)
+        recyclerView.adapter = adapter
+// Initialize the adapter with the claimed rewards list and set it to the RecyclerView
+
+        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.historymain)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
-    }
 
-    // Inflate the layout for each reward item and return the ViewHolder
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewClaim = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_reward_claim, parent, false)
-        return ViewHolder(viewClaim)
-    }
 
-    // Bind reward data to each view
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val claim = items[position]
-        holder.imageClaim.setImageResource(claim.clmImageResId)
-        holder.claimTitle.text = claim.clmTitle
-        holder.claimPoints.text = "${claim.clmAmount} pts"
-    } // sets all the item info
+        // Back button
+        val backButton: Button = view.findViewById(R.id.butback)
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_rewards)
+        }
 
-    // Returns the total number of reward items
-    override fun getItemCount(): Int = items.size
+        // Expired button: Navigate to RewardExpiredFragment
+        val expButton: TextView = view.findViewById(R.id.expButton)
+        expButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_rewards_expired)
 
-    // Update the adapter's data and refresh the RecyclerView
-    fun updateList(newItems: List<ClaimItem>) {
-        items = newItems
-        notifyDataSetChanged() // Notifys about data has changes
-    }
-} // (Viegen, 2022)
+        } // (Viegen, 2022)
 
+        return view
+    } // (Viegen, 2022)
+}
 
 //Reference List
 

@@ -1,48 +1,43 @@
 package com.iie.st10320489.marene.ui.rewards
 
-import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.iie.st10320489.marene.R
 
-class QrFragment : Fragment() { // (Code With Cal, 2025)
+data class RewardHistoryItem(
 
-    override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment from the activity_qr XML layout
-        val rootView: View = inflater.inflate(R.layout.activity_qr, container, false)
+// Unique identifier for the reward
+    val rewardId: String = "",
+// ID of the user who claimed the reward
+    val userId: String = "",
+// Title or name of the reward
+    val title: String = "",
+// Resource ID for the image associated with the reward (used to display image from drawable)
+    val imageResId: Int = 0,
+// Location where the reward is claimed or to be used
+    val location: String = "",
+// Human-readable date and time when the reward was claimed
+    val dateClaimed: String = "",
+// Timestamp indicating when the reward expires (default: 60 seconds from current time)
+    val expiryTimestamp: Long = System.currentTimeMillis() + 60_000,
+// Status of the reward (e.g., "Expired", "Claimed", "Used")
+    val status: String = "Expired"
+) // (Viegen, 2022)
 
-        // Get a reference to the "Continue" button in the layout
-        val btnContinue: Button = rootView.findViewById(R.id.btnContinue)
+//Reference List
 
-        // Set a click listener on the "Continue" button
-        btnContinue.setOnClickListener {
-            Toast.makeText(requireContext(), "Reward claimed", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.qrFragment)
-        }
-
-        // Adjust view padding based on system window insets (e.g., status bar, navigation bar)
-        ViewCompat.setOnApplyWindowInsetsListener(rootView.findViewById(R.id.qrMain)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-// (Code With Cal, 2025)
-        return rootView
-    }
-}
-
-//Reference List:
+//Raikwar, A., 2023. Ge=ng Started with Room Database in Android. [Online]
+//Available at: hRps://developer.android.com/develop#core-areas
+//[Accessed 28 April 2025].
+//Cal, C. W., 2023. Room Database Android Studio Kotlin Example Tutorial. [Online] Available at: hRps://youtu.be/-LNg-K7SncM?si=y8cbMdvhhp48Pp9-
+//[Accessed 27 April 2025].
+//College, I. V., 2025. PROG7313 Module-Manual / Module-Outline. Pretoria: Varsity College Pretoria.
+//Viegen, F. v., 2022. A PracKcal introducKon to Android Room-3 : EnKty, Dao and Database objects.. [Online]
+//Available at: hRps://youtu.be/RstQg7f4Edk?si=8RoAGp-OKPpMNVdY
+//[Accessed 28 April 2025].
+//androidbyexample, 2024. EnKKes ,Dao and Database -Android By Example. [Online] Available at: hRps://androidbyexample.com/modules/movie-db/STEP-050_Repo.html [Accessed 25 April 2025].
+//AndroidDevelopers, 2023. Layouts in Views. [Online]
+//Available at: hRps://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
+//Kay, R. M., 2022. IntroducKon To Development WithAndroid Studio: XML The Five Minute Language. [Online]
+//Available at: hRps://youtu.be/94tm21PIBMs?si=BpJQ9meXr1_ynL2m
+//[Accessed 15 April 2025].
 //Angga Risky. 2017. Rewards UI Design to Android XML Tutorial. [video online]. Available at: https://www.youtube.com/watch?v=fjXMx_iLkTY [Accessed on 10 April 2025]
 //GeeksforGeeks. 2025. Android UI Layouts. [online]. Available at: https://www.geeksforgeeks.org/android-ui-layouts/ [Accessed on 10 April 2025]
 //Muhammadumarch. 2023. Implementing Navigation in Your Android App with Android Navigation Component. [online]. Available at: https://medium.com/@muhammadumarch321/implementing-navigation-in-your-android-app-with-android-navigation-component-ff22a3d300a [Accessed on 11 April 2025]
