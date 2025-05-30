@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\fragment_home.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\fragment_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\activity_signup.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\activity_signup.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\fragment_category.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\fragment_category.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\fragment_add.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\fragment_add.xml"
+    },
+    {
+        "merged": "com.iie.st10320489.marene.app-mergeDebugResources-48:/layout/activity_signup.xml",
+        "source": "com.iie.st10320489.marene.app-main-51:/layout/activity_signup.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\activity_settings.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\activity_settings.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\fragment_analysis.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\fragment_analysis.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\fragment_rewards.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\fragment_rewards.xml"
+    },
+    {
+        "merged": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-mergeDebugResources-48:\\layout\\view_bar_graph.xml",
+        "source": "C:\\Users\\dafel\\.gradle\\daemon\\8.9\\com.iie.st10320489.marene.app-main-51:\\layout\\view_bar_graph.xml"
+    }
+]
