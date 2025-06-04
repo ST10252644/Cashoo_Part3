@@ -1,0 +1,4 @@
+# Ignore Gradle build files and IDE config
+.gradle/
+/shelf/
+/workspace.xml
