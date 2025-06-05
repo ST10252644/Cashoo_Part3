@@ -30,9 +30,10 @@ Overview of the App Flow
 3. Home Page: Shows total spending, balance, and recent expenses.Users can access their profile, transaction history, and navigation bar from this point. The navigation bar can then lead the user to possible rewards, analytics from their entries or a categories page where they can view entries in an organised manner or create their oen category if they wish to do so.
 
    
-—-------------------------------------------------------------------------------------------------------------------------
+—------------------------------------------------------------------------------------------
 
 How to Use the App:
+-----------------
 
 With just a few taps, you can access essential features thanks to the user-friendly and intuitive navigation:
 1. After downloading the zipped file feom the git repo you can run the app named "cashoo" on either an emulator or android phone.
@@ -55,10 +56,11 @@ With just a few taps, you can access essential features thanks to the user-frien
 
 • Rewards: You can claim cashoos at the top and redeem those cashooes for vouchers of different teiers depending on your collected cashoo amount of either bronze, silver or gold tier.
 
-—-------------------------------------------------------------------------------------------------------------------------
+—--------------------------------------------------------------------------------------------
 
 
 Key Elements
+------------
 
 
 •	Expense and Budget Monitoring: 
@@ -81,6 +83,7 @@ Key Elements
 
 ------------------------------------------------------------------------------------------------------------------------------------
 References
+---------
 
 Android Developers. 2023. Layouts in Views. [online]. Available at: https://developer.android.com/developer/ui/views/layout/declaring-layout [Accessed 23 April 2025].
 Android Developers. 2024. Save data in a local database using Room. [online]. Available at: https://developer.android.com/training/data-storage/room [Accessed 27 April 2025].
