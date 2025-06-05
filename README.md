@@ -1,8 +1,8 @@
 # Cashoo
- 
-Created by Charne-ST10089153, Cherika- ST10252644, Marene- ST10320489, Ryan- ST10364151, Inge- 10399538 and Nathan- ST10322054 as a component of the PROG7313 POE project
+
+Cashoo: A Budget Tracking & Savings App
 -------------------------------------------------------
-Cashoo: A Budget Tracking App
+Created by Charne-ST10089153, Cherika- ST10252644, Marene- ST10320489, Ryan- ST10364151, Inge- 10399538 and Nathan- ST10322054 as a component of the PROG7313 POE project
 
 Welcome to the Cashoo, a budgeting app that gamifies tracking personal budgets, making tracking finances more fun, interactive, and convenient. Cashoo is a budgeting app that provides an integrated solution to logging, categorizing, and analyzing spending patterns, along with setting saving targets, tracking spending, and controlling finances.Its innovative design and gamification aspects make use of digital money and cashews, it fosters app commerce and incorporates real-world rewards schemes like scannable vouchers for well known brands around you. The users get to earn cashews by achieving goals and accumulating points(cashews). Cashoo's simplified mechanics, easy-to-read graphs, and the ability to add custom categories make it an ideal choice for those seeking a novel and exciting budgeting experience.This README outlines the core app flow, navigation, and features implemented during the planning and design phase.
 
