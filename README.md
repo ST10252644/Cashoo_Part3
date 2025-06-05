@@ -1,6 +1,7 @@
 # Cashoo
  
 Created by Charne-ST10089153, Cherika- ST10252644, Marene- ST10320489, Ryan- ST10364151, Inge- 10399538 and Nathan- ST10322054 as a component of the PROG7313 POE project
+-------------------------------------------------------
 Cashoo: A Budget Tracking App
 
 Welcome to the Cashoo, a budgeting app that gamifies tracking personal budgets, making tracking finances more fun, interactive, and convenient. Cashoo is a budgeting app that provides an integrated solution to logging, categorizing, and analyzing spending patterns, along with setting saving targets, tracking spending, and controlling finances.Its innovative design and gamification aspects make use of digital money and cashews, it fosters app commerce and incorporates real-world rewards schemes like scannable vouchers for well known brands around you. The users get to earn cashews by achieving goals and accumulating points(cashews). Cashoo's simplified mechanics, easy-to-read graphs, and the ability to add custom categories make it an ideal choice for those seeking a novel and exciting budgeting experience.This README outlines the core app flow, navigation, and features implemented during the planning and design phase.
@@ -26,7 +27,7 @@ Overview of the App Flow
 • Page 4: Establish your monthly savings targets, including the minimum and maximum sums.
 • Page 5: Select a colour and hat to personalise your Chinchilla avatar.
 
-3. Home Page: Shows total spending, balance, and recent expenses.Users can access their profile, transaction history, and navigation bar from this point.
+3. Home Page: Shows total spending, balance, and recent expenses.Users can access their profile, transaction history, and navigation bar from this point. The navigation bar can then lead the user to possible rewards, analytics from their entries or a categories page where they can view entries in an organised manner or create their oen category if they wish to do so.
 
    
 —-------------------------------------------------------------------------------------------------------------------------
@@ -34,15 +35,25 @@ Overview of the App Flow
 How to Use the App:
 
 With just a few taps, you can access essential features thanks to the user-friendly and intuitive navigation:
-1. Login or Sign Up: Safely sign into the app to begin using the app or create a new account.
-2. Onboarding: After being introduced to the app; Choose your budget categories, savings goals, and chinchilla avatar with accessories to finish the setup.
-3. Home Screen: The Home Page will be displayed to you after onboarding is finished.
-4. Navigation Bar: This area at the bottom of the screen consists of:
+1. After downloading the zipped file feom the git repo you can run the app named "cashoo" on either an emulator or android phone.
+
+2. Login or Sign Up: Safely sign into the app to begin using the app or create a new account.
+
+3. Onboarding: After being introduced to the app; Choose your budget categories, savings goals, and chinchilla avatar with accessories to finish the setup.
+
+4. Home Screen: The Home Page will be displayed to you after onboarding is finished.
+
+5. Navigation Bar: This area at the bottom of the screen consists of:
+
 •	 Home: Dashboard showing recent expenses and balance
+
 •	 Categories: Tap to see, choose, or create new categories to view in a user friendly manner.
+
 •	Analytics: Tap to examine your expenditures using: Weekly, monthly, or annual perspectives; visualisations in the form of bars or pie charts
+
 •	To add a new transaction, tap the "+" icon; Enter information such as the amount, date, time, category, description, and location.
 
+• Rewards: You can claim cashoos at the top and redeem those cashooes for vouchers of different teiers depending on your collected cashoo amount of either bronze, silver or gold tier.
 
 —-------------------------------------------------------------------------------------------------------------------------
 
@@ -50,7 +61,9 @@ With just a few taps, you can access essential features thanks to the user-frien
 Key Elements
 
 
-•	Expense and Budget Monitoring: • Add, view, modify, and remove expenses • Attach receipt photos and classify expenditures
+•	Expense and Budget Monitoring: 
+• Add, view, modify, and remove expenses 
+• Attach receipt photos and classify expenditures
 •	Establish monthly spending targets, set a minimum and maximum, and visually monitor your progress.
 •	Categories: You can add your own categories or select the default ones.To improve clarity, arrange your expenses.
 •	Analytics: Interactive pie and bar chartsSpending can be filtered by week, month, or year.
