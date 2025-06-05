@@ -11,7 +11,7 @@ Welcome to the Cashoo, a budgeting app that gamifies tracking personal budgets, 
 
 APP Youtube link and Github Link:
 
-https://github.com/ST10252644/new_cashoo.git
+https://github.com/ST10252644/Cashoo_Part3.git
 
 https://youtu.be/iwUW5Z8RXQE
 
