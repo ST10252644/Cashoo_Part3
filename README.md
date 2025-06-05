@@ -7,7 +7,7 @@ Created by Charne-ST10089153, Cherika- ST10252644, Marene- ST10320489, Ryan- ST1
 Welcome to the Cashoo, a budgeting app that gamifies tracking personal budgets, making tracking finances more fun, interactive, and convenient. Cashoo is a budgeting app that provides an integrated solution to logging, categorizing, and analyzing spending patterns, along with setting saving targets, tracking spending, and controlling finances.Its innovative design and gamification aspects make use of digital money and cashews, it fosters app commerce and incorporates real-world rewards schemes like scannable vouchers for well known brands around you. The users get to earn cashews by achieving goals and accumulating points(cashews). Cashoo's simplified mechanics, easy-to-read graphs, and the ability to add custom categories make it an ideal choice for those seeking a novel and exciting budgeting experience.This README outlines the core app flow, navigation, and features implemented during the planning and design phase.
 
 
-—----------------------------------------------------------------------------------------------------------------------------
+—------------------------------------------------------------------------------------------------------
 
 APP Youtube link and Github Link:
 
@@ -62,13 +62,21 @@ Key Elements
 
 
 •	Expense and Budget Monitoring: 
+
 • Add, view, modify, and remove expenses 
+
 • Attach receipt photos and classify expenditures
+
 •	Establish monthly spending targets, set a minimum and maximum, and visually monitor your progress.
+
 •	Categories: You can add your own categories or select the default ones.To improve clarity, arrange your expenses.
+
 •	Analytics: Interactive pie and bar chartsSpending can be filtered by week, month, or year.
+
 •	Gamification & RewardsReach financial objectives to earn cashews.Use cashews to get discounts in the real world.Customise and maintain your Chinchilla avatar.
+
 •	Profile management includes updating goals, salary, email, and name.Features for a secure password change and logout
+
 •	Technical SynopsisAndroid as the platform; Firebase as the backend (for authentication, databases, and cloud syncing); and a responsive user interface that works on all screen sizes
 
 ------------------------------------------------------------------------------------------------------------------------------------
