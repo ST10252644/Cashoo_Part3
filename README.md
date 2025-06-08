@@ -90,18 +90,26 @@ Unique Features
 We implemented a full Rewards System designed to motivate users toward achieving financial goals. This includes a functioning Discount Page with the following features:
 
 •	Error Control: Prevents accidental or duplicate reward claims.
+
 •	Reliability & Anti-Rigging Measures: Built-in logic ensures the system cannot be easily manipulated.
+
 •	Expiry Timer: Each reward comes with a countdown timer to manage redemption windows.
+
 •	Claim History: Users can view previously claimed discounts for transparency.
+
 •	Tier System: Rewards are divided into Bronze, Silver, and Gold tiers to encourage users to save more and unlock higher-value discounts.
+
 
 
 2. Customisable Chinchilla Avatar & Personalisation
 We placed a strong emphasis on user personalisation through a customisable Chinchilla avatar and onboarding flow:
 
 •	Avatar Customisation: Users can choose a color and hat for their Chinchilla, allowing for a more enjoyable and personalised experience.
+
 •	Category Selection: During onboarding, users select or create their own budget categories tailored to their lifestyle.
+
 •	Homepage Avatar Display: The user’s chosen avatar is shown on the home screen for added connection and engagement.
+
 •	Profile Page: All onboarding information (goals, salary, personal info) can be edited from the profile section, giving the user full control.
 
 —------------------------------------------------------------------------------------------------------
