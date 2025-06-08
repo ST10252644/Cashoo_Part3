@@ -96,7 +96,7 @@ We implemented a full Rewards System designed to motivate users toward achieving
 •	Tier System: Rewards are divided into Bronze, Silver, and Gold tiers to encourage users to save more and unlock higher-value discounts.
 
 
-🐾 2. Customisable Chinchilla Avatar & Personalisation
+2. Customisable Chinchilla Avatar & Personalisation
 We placed a strong emphasis on user personalisation through a customisable Chinchilla avatar and onboarding flow:
 
 •	Avatar Customisation: Users can choose a color and hat for their Chinchilla, allowing for a more enjoyable and personalised experience.
