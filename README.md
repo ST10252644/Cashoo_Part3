@@ -6,7 +6,6 @@ Created by Charne-ST10089153, Cherika- ST10252644, Marene- ST10320489, Ryan- ST1
 
 Welcome to the Cashoo, a budgeting app that gamifies tracking personal budgets, making tracking finances more fun, interactive, and convenient. Cashoo is a budgeting app that provides an integrated solution to logging, categorizing, and analyzing spending patterns, along with setting saving targets, tracking spending, and controlling finances.Its innovative design and gamification aspects make use of digital money and cashews, it fosters app commerce and incorporates real-world rewards schemes like scannable vouchers for well known brands around you. The users get to earn cashews by achieving goals and accumulating points(cashews). Cashoo's simplified mechanics, easy-to-read graphs, and the ability to add custom categories make it an ideal choice for those seeking a novel and exciting budgeting experience.This README outlines the core app flow, navigation, and features implemented during the planning and design phase.
 
-
 —------------------------------------------------------------------------------------------------------
 
 APP Youtube link and Github Link:
@@ -29,7 +28,6 @@ Overview of the App Flow
 
 3. Home Page: Shows total spending, balance, and recent expenses.Users can access their profile, transaction history, and navigation bar from this point. The navigation bar can then lead the user to possible rewards, analytics from their entries or a categories page where they can view entries in an organised manner or create their oen category if they wish to do so.
 
-   
 —------------------------------------------------------------------------------------------
 
 How to Use the App:
@@ -81,7 +79,47 @@ Key Elements
 
 •	Technical SynopsisAndroid as the platform; Firebase as the backend (for authentication, databases, and cloud syncing); and a responsive user interface that works on all screen sizes
 
+—------------------------------------------------------------------------------------------------------
+
+
+Unique Features
+---------------
+
+
+1. Rewards System with Discount Page
+We implemented a full Rewards System designed to motivate users toward achieving financial goals. This includes a functioning Discount Page with the following features:
+
+•	Error Control: Prevents accidental or duplicate reward claims.
+•	Reliability & Anti-Rigging Measures: Built-in logic ensures the system cannot be easily manipulated.
+•	Expiry Timer: Each reward comes with a countdown timer to manage redemption windows.
+•	Claim History: Users can view previously claimed discounts for transparency.
+•	Tier System: Rewards are divided into Bronze, Silver, and Gold tiers to encourage users to save more and unlock higher-value discounts.
+
+
+🐾 2. Customisable Chinchilla Avatar & Personalisation
+We placed a strong emphasis on user personalisation through a customisable Chinchilla avatar and onboarding flow:
+
+•	Avatar Customisation: Users can choose a color and hat for their Chinchilla, allowing for a more enjoyable and personalised experience.
+•	Category Selection: During onboarding, users select or create their own budget categories tailored to their lifestyle.
+•	Homepage Avatar Display: The user’s chosen avatar is shown on the home screen for added connection and engagement.
+•	Profile Page: All onboarding information (goals, salary, personal info) can be edited from the profile section, giving the user full control.
+
+—------------------------------------------------------------------------------------------------------
+
+
+Updates & Improvements
+-----------------------
+
+
+•	The "View list of entries in a period" feature has been tested and now reliably works with as few as one or two entries. This ensures new users can still filter their transactions even with minimal data.
+
+•	Entries added under the "Other" category now automatically update in the list view. The custom category name entered by the user is displayed clearly in both the entry list and totals, helping reduce confusion and improving transparency.
+
+•	Per project requirements, one team member handled the entire explanation in the demonstration video to ensure a consistent and clear presentation.
+
 ------------------------------------------------------------------------------------------------------------------------------------
+
+
 References
 ---------
 
